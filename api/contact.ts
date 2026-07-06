@@ -1,5 +1,7 @@
 export const config = { runtime: "edge" };
 
+declare const process: { env: Record<string, string | undefined> };
+
 const MAX_BODY_BYTES = 10_000;
 
 type ContactPayload = {
