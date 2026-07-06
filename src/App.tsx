@@ -21,7 +21,7 @@ import logoImg from "./assets/photos/logo.png";
 const IG_URL = "https://www.instagram.com/htpowerpestcontrol";
 
 const btnOnDark = "bg-white hover:bg-[#eef2fe] text-[#16265e] rounded-full font-bold shadow-[0_8px_24px_rgba(0,0,0,0.2)]";
-const btnGhostDark = "border border-white/40 bg-white/25 backdrop-blur-sm text-white hover:bg-white/35 hover:text-white rounded-full font-semibold";
+const btnGhostDark = "border border-white/40 bg-white/35 text-white hover:bg-white/45 hover:text-white rounded-full font-semibold";
 
 function Instagram({ className = "" }: { className?: string }) {
   return (
@@ -183,7 +183,7 @@ export default function App() {
         Skip to content
       </a>
       {/* NAV */}
-      <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? "bg-white/95 backdrop-blur shadow-[0_2px_20px_rgba(13,47,94,0.08)]" : "bg-transparent"}`}>
+      <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? "bg-white/95 shadow-[0_2px_20px_rgba(13,47,94,0.08)]" : "bg-transparent"}`}>
         <nav className="mx-auto max-w-7xl px-5 h-16 flex items-center justify-between">
           <button onClick={() => scrollTo("home")} className="flex items-center gap-2">
             <img src={logoImg} alt="HT-Power Pest Control logo" className="h-9 w-9 rounded-full object-cover" />
@@ -215,7 +215,7 @@ export default function App() {
           </button>
         </nav>
         {open && (
-          <div className="md:hidden bg-white/98 backdrop-blur border-t border-[#dcecf9] px-5 py-3">
+          <div className="md:hidden bg-white/98 border-t border-[#dcecf9] px-5 py-3">
             {NAV.map((n) => (
               <button key={n.id} onClick={() => scrollTo(n.id)} className="block w-full text-left py-2.5 font-semibold text-[#0d2f5e]/80">
                 {n.label}
@@ -288,7 +288,7 @@ export default function App() {
             <div className="relative rounded-[2rem] overflow-hidden shadow-[0_25px_60px_-20px_rgba(13,47,94,0.5)]">
               <img src={firstbaronImg} alt="HT-Power technician on-site" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0d2f5e]/40 to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-white/90 backdrop-blur p-4">
+              <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-white/90 p-4">
                 <div className="flex items-center gap-2 text-[#0d2f5e] font-bold text-sm">
                   <BadgeCheck className="h-5 w-5 brand-royal" /> First Baron Residences — General Pest Control
                 </div>
@@ -516,7 +516,7 @@ export default function App() {
       </footer>
 
       {/* STICKY MOBILE CTA */}
-      <div className="md:hidden fixed bottom-0 inset-x-0 z-50 grid grid-cols-2 border-t border-[#dcecf9] bg-white/95 backdrop-blur shadow-[0_-4px_20px_rgba(13,47,94,0.1)]">
+      <div className="md:hidden fixed bottom-0 inset-x-0 z-50 grid grid-cols-2 border-t border-[#dcecf9] bg-white/95 shadow-[0_-4px_20px_rgba(13,47,94,0.1)]">
         <a href="tel:09927118665" className="flex items-center justify-center gap-2 py-3.5 font-bold text-[#0d2f5e] border-r border-[#dcecf9]">
           <Phone className="h-5 w-5" /> Call
         </a>
