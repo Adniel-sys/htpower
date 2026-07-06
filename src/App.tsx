@@ -21,7 +21,7 @@ import logoImg from "./assets/photos/logo.png";
 const IG_URL = "https://www.instagram.com/htpowerpestcontrol";
 
 const btnOnDark = "bg-white hover:bg-[#eef2fe] text-[#16265e] rounded-full font-bold shadow-[0_8px_24px_rgba(0,0,0,0.2)]";
-const btnGhostDark = "border border-white/40 bg-white/35 text-white hover:bg-white/45 hover:text-white rounded-full font-semibold";
+const btnGhostDark = "border border-white/40 bg-white/90 text-[#16265e] hover:bg-white/95 rounded-full font-semibold";
 
 function Instagram({ className = "" }: { className?: string }) {
   return (
@@ -215,7 +215,7 @@ export default function App() {
           </button>
         </nav>
         {open && (
-          <div className="md:hidden bg-white/98 border-t border-[#dcecf9] px-5 py-3">
+          <div className="md:hidden bg-white border-t border-[#dcecf9] px-5 py-3">
             {NAV.map((n) => (
               <button key={n.id} onClick={() => scrollTo(n.id)} className="block w-full text-left py-2.5 font-semibold text-[#0d2f5e]/80">
                 {n.label}
