@@ -540,6 +540,7 @@ function ContactForm() {
   const validate = () => {
     const e: Record<string, string> = {};
     if (!form.name.trim()) e.name = "Name is required";
+    else if (!/^[A-Za-zÀ-ſ .'-]+$/.test(form.name.trim())) e.name = "Name can only contain letters";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Valid email required";
     if (form.phone.trim() && !/^0\d{9,10}$/.test(form.phone.replace(/[\s-]/g, ""))) e.phone = "Valid PH mobile number required";
     if (form.message.trim().length < 10) e.message = "Please add a few more details (min. 10 characters)";

@@ -14,6 +14,7 @@ type ContactPayload = {
 
 function validate(data: ContactPayload): string | null {
   if (typeof data.name !== "string" || !data.name.trim()) return "Name is required";
+  if (!/^[A-Za-zÀ-ſ .'-]+$/.test(data.name.trim())) return "Name can only contain letters";
   if (typeof data.email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return "Valid email required";
   if (typeof data.phone === "string" && data.phone.trim() && !/^0\d{9,10}$/.test(data.phone.replace(/[\s-]/g, ""))) {
     return "Valid PH mobile number required";
