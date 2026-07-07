@@ -1,0 +1,25 @@
+name: Uptime check
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping production site (with retries to avoid false alarms)
+        run: |
+          URL="https://htpower-website.vercel.app/"
+          for i in 1 2 3; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 "$URL" || echo "000")
+            echo "Attempt $i: HTTP $STATUS"
+            if [ "$STATUS" = "200" ]; then
+              echo "Site is up."
+              exit 0
+            fi
+            sleep 20
+          done
+          echo "Site did not return 200 after 3 attempts."
+          exit 1
