@@ -2,11 +2,22 @@
 
 React + Vite + Tailwind + shadcn/ui. Single-page marketing site.
 
+## Live Site
+
+**[https://htpower-website.vercel.app/](https://htpower-website.vercel.app/)**
+
 ## Setup
+
+**Requirements:** Node.js `^20.19.0` or `>=22.12.0` (per Vite 8's engine requirement), and `pnpm`.
+
+If `pnpm` isn't installed globally, enable it via Node's built-in Corepack (`corepack enable`), install it globally (`npm install -g pnpm`), or just prefix each command below with `npx` (e.g. `npx pnpm install`).
+
 ```bash
 pnpm install
 pnpm dev          # local dev server
 pnpm build        # production build -> dist/
+pnpm preview      # preview the production build locally
+pnpm lint         # lint the codebase
 ```
 
 ## Backend: Make.com
