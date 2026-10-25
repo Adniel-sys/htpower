@@ -2,13 +2,24 @@ import { useState, useEffect, useRef } from "react";
 import {
   Shield, Sprout, Users, Award, Target, HeartHandshake,
   Mail, Phone, Menu, X, CheckCircle2, Bug, Home, Building2,
-  Warehouse, Send, MapPin, ArrowRight, Star, Quote, BadgeCheck,
-  Search, ClipboardCheck
+  Send, MapPin, ArrowRight, Star, Quote, BadgeCheck,
+  Search, ClipboardCheck, Landmark, FileCheck, FlaskConical, ChevronLeft,
+  ChevronRight, CalendarClock, Droplets, Shovel, Images, Factory, Eye
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import bydImg from "./assets/photos/byd.jpg";
+import bydBgcImg from "./assets/photos/byd-bgc.jpg";
+import bydPt1Img from "./assets/photos/byd-pasongtamo-1.jpg";
+import bydPt2Img from "./assets/photos/byd-pasongtamo-2.jpg";
+import bydPt3Img from "./assets/photos/byd-pasongtamo-3.jpg";
+import denza1Img from "./assets/photos/denza-1.jpg";
+import denza2Img from "./assets/photos/denza-2.jpg";
+import denza3Img from "./assets/photos/denza-3.jpg";
+import topRealty1Img from "./assets/photos/toprealty-1.jpg";
+import topRealty2Img from "./assets/photos/toprealty-2.jpg";
 import parkadsImg from "./assets/photos/parkads.jpg";
 import parkads2Img from "./assets/photos/parkads2.jpg";
 import firstbaronImg from "./assets/photos/firstbaron.jpg";
@@ -43,14 +54,62 @@ function Facebook({ className = "" }: { className?: string }) {
 }
 
 const PROJECTS = [
-  { img: chizmozzaImg, name: "Chizmozza", loc: "SM North, EDSA", type: "Termite Control Treatment" },
-  { img: farinasImg, name: "Fariñas Ilocos Empanada", loc: "Bagong Ilog, Pasig City", type: "General Pest Control" },
-  { img: bydImg, name: "BYD – Pasong Tamo Branch", loc: "Makati City", type: "General Pest Control" },
-  { img: firstbaronImg, name: "First Baron Residences", loc: "Metro Manila", type: "General Pest Control" },
-  { img: parkadsImg, name: "Park Ads Inc.", loc: "Metro Manila", type: "General Pest Control" },
-  { img: moanaImg, name: "Moana Cafe & Eatery", loc: "Metro Manila", type: "General Pest Control" },
-  { img: parkads2Img, name: "Corporate Office", loc: "Metro Manila", type: "General Pest Control" },
-  { img: ctaImg, name: "Warehouse & Storage", loc: "Metro Manila", type: "General Pest Control" },
+  { imgs: [bydBgcImg], name: "BYD – BGC Branch", loc: "Taguig City", type: "General Pest Control" },
+  { imgs: [bydPt1Img, bydPt2Img, bydPt3Img, bydImg], name: "BYD – Pasong Tamo Branch", loc: "Makati City", type: "General Pest Control" },
+  { imgs: [denza1Img, denza2Img, denza3Img], name: "DENZA – Makati Branch", loc: "Makati City", type: "General Pest Control" },
+  { imgs: [topRealty1Img, topRealty2Img], name: "Top Realty88 Corporation", loc: "Metro Manila", type: "General Pest Control" },
+  { imgs: [chizmozzaImg], name: "Chizmozza", loc: "SM North, EDSA", type: "Termite Control Treatment" },
+  { imgs: [farinasImg], name: "Fariñas Ilocos Empanada", loc: "Bagong Ilog, Pasig City", type: "General Pest Control" },
+  { imgs: [firstbaronImg], name: "First Baron Residences", loc: "Metro Manila", type: "General Pest Control" },
+  { imgs: [parkadsImg, parkads2Img], name: "Park Ads Inc.", loc: "Metro Manila", type: "General Pest Control" },
+  { imgs: [moanaImg], name: "Moana Cafe & Eatery", loc: "Metro Manila", type: "General Pest Control" },
+];
+
+// From the 2026 company profile. Residential clients are private individuals, so they're not listed.
+const CLIENTS = [
+  { group: "Commercial", names: [
+    "BYD – Taguig", "BYD – Pasong Tamo", "DENZA – Makati", "Park Ads Inc.",
+    "Philippine Spring Water Resources (Nature's Spring)", "Top Realty88 Corporation",
+    "Harmonic System Inc.", "Steven Realty & Trade Dev't Corp.", "Joint Endeavor Group Corp.",
+    "Cloud Ecommerce Corporation", "Xitrix Computer Corporation", "CameraHaus",
+    "Dreamskin Aesthetic Depot", "Dreamscapade Travel & Tours", "Unsang Business Support Services",
+    "E-Prints", "Auntie's Empanada", "Guallar Water Refilling Station", "Purecryst Water Refilling Station",
+  ] },
+  { group: "Restaurants", names: ["Fariñas Ilocos Empanada", "Chizmozza PH (SM North)", "Moana Café & Eatery", "Why Chicken (Pasig)"] },
+  { group: "Condominium", names: ["First Baron Tower Residences", "The Baron's Place"] },
+  { group: "Industrial", names: ["Ian Spices Trading"] },
+];
+
+const CREDENTIALS = [
+  { icon: Landmark, title: "BIR Registered", text: "A legally recognized business, compliant with all tax and government requirements." },
+  { icon: FileCheck, title: "DTI Registered", text: "Officially registered with the Department of Trade and Industry." },
+  { icon: Users, title: "PCAP Member", text: "Proud member of the Pest Control Association of the Philippines." },
+  { icon: FlaskConical, title: "FDA-Approved Products", text: "Every material we use is FDA-approved. Our own FDA application is underway." },
+];
+
+const FAQS = [
+  { q: "How long does a pest control treatment take?",
+    a: <p>A typical treatment takes at least ninety minutes, though the duration varies with the size of the house or property.</p> },
+  { q: "What should I prepare before a treatment?",
+    a: <>
+      <p>Cover food items or store them in a large bag, such as a trash bag. Water containers don't need covering since the chemicals we use can't penetrate them, but you can cover them with plastic for added caution — the same goes for dispenser nozzles.</p>
+      <p className="mt-2">Clothing doesn't need to be packed unless the flies being controlled are hiding in it. Wash sofa covers, linens, and pillowcases before reuse. During spraying or misting, no one except the person assisting should stay inside the treated area.</p>
+    </> },
+  { q: "When is it safe to enter a treated area?",
+    a: <p>For optimal safety, wait 2–3 hours after the treatment is completed before entering the treated area.</p> },
+  { q: "How does a pest control inspection work?",
+    a: <p>Our specialists reach out to learn more about your pest concerns, then schedule a site visit at a convenient time. On-site, we inspect all relevant areas to assess the extent of the infestation, walk you through our findings, and recommend the most suitable treatment with a precise quote. We'll also share prevention advice on proofing and hygiene. <strong>The inspection and quote are completely free.</strong></p> },
+  { q: "How much does pest control cost?",
+    a: <>
+      <p>Every quote is tailored after inspection. The main factors are:</p>
+      <ul className="mt-2 space-y-1.5 list-disc pl-5">
+        <li><strong>Pest type</strong> — each pest needs its own solution; flies are treated differently from rodents.</li>
+        <li><strong>Infestation severity</strong> — heavier infestations need more frequent treatment and monitoring.</li>
+        <li><strong>Treatment method</strong> — preventive programs are priced differently from corrective treatments.</li>
+        <li><strong>Property size</strong> — larger areas take more time to treat thoroughly.</li>
+        <li><strong>Number of treatments</strong> — some pests need multiple visits for effective control.</li>
+      </ul>
+    </> },
 ];
 
 const TESTIMONIALS = [
@@ -86,6 +145,7 @@ const NAV = [
   { label: "Services", id: "services" },
   { label: "Projects", id: "projects" },
   { label: "Reviews", id: "reviews" },
+  { label: "FAQ", id: "faq" },
   { label: "Contact", id: "contact" },
 ];
 
@@ -105,12 +165,18 @@ const SERVICES = [
   { icon: Bug, title: "General Pest Control", text: "Targeted control for ants, cockroaches, mosquitoes, and common pests." },
   { icon: Home, title: "Termite Control Treatment", text: "Soil and wood treatment to eliminate and prevent termite damage." },
   { icon: Shield, title: "Rodent Control Treatment", text: "Baiting, trapping, and exclusion to keep rodents out for good." },
+  { icon: Droplets, title: "Reticulation System", text: "Treatment delivered through a network of pipes for even, long-lasting indoor and outdoor coverage." },
+  { icon: Shovel, title: "Soil Poisoning", text: "Pre- and post-construction soil treatment that stops termites at the root level." },
   { icon: BadgeCheck, title: "Certificate & Service Report", text: "Sanitary permit documentation for compliance and inspections." },
 ];
 
+const PESTS = ["Termites", "Cockroaches", "Rats & Mice", "Mosquitoes & Flies", "Ants & Bugs"];
+
+const SCHEDULES = ["One-Time", "Monthly", "Bi-Monthly", "Quarterly"];
+
 const CATEGORIES = [
-  { icon: Building2, title: "Commercial Businesses", text: "Offices, restaurants, and retail." },
-  { icon: Warehouse, title: "Warehouses", text: "Storage, logistics, and facilities." },
+  { icon: Building2, title: "Commercial Businesses", text: "Offices, restaurants, dealerships, and retail." },
+  { icon: Factory, title: "Industrial & Warehouses", text: "Factories, warehouses, and production sites." },
   { icon: Home, title: "Condo & Residential", text: "Homes, condos, and estates." },
 ];
 
@@ -164,13 +230,17 @@ function CountUp({ value }: { value: string }) {
 export default function App() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [lightbox, setLightbox] = useState<number | null>(null);
+  const [lightbox, setLightbox] = useState<{ p: number; i: number } | null>(null);
   useReveal();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const lbProject = lightbox && PROJECTS[lightbox.p];
+  const stepPhoto = (d: number) =>
+    setLightbox((lb) => lb && { ...lb, i: (lb.i + d + PROJECTS[lb.p].imgs.length) % PROJECTS[lb.p].imgs.length });
 
   const scrollTo = (id: string) => {
     setOpen(false);
@@ -191,7 +261,7 @@ export default function App() {
               HT-POWER<span className={`block text-[10px] font-semibold tracking-[0.22em] -mt-1 ${scrolled ? "text-[#4169E1]" : "text-[#cfd9f7]"}`}>PEST CONTROL</span>
             </span>
           </button>
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             {NAV.map((n) => (
               <button key={n.id} onClick={() => scrollTo(n.id)}
                 className={`px-4 py-2 text-sm font-semibold transition-colors ${scrolled ? "text-[#16265e]/80 hover:text-[#2952cc]" : "text-white/90 hover:text-white"}`}>
@@ -210,12 +280,12 @@ export default function App() {
               Get a Quote
             </Button>
           </div>
-          <button className={`md:hidden ${scrolled ? "text-[#16265e]" : "text-white"}`} onClick={() => setOpen((o) => !o)} aria-label="menu">
+          <button className={`lg:hidden ${scrolled ? "text-[#16265e]" : "text-white"}`} onClick={() => setOpen((o) => !o)} aria-label="menu">
             {open ? <X /> : <Menu />}
           </button>
         </nav>
         {open && (
-          <div className="md:hidden bg-white border-t border-[#dcecf9] px-5 py-3">
+          <div className="lg:hidden bg-white border-t border-[#dcecf9] px-5 py-3">
             {NAV.map((n) => (
               <button key={n.id} onClick={() => scrollTo(n.id)} className="block w-full text-left py-2.5 font-semibold text-[#0d2f5e]/80">
                 {n.label}
@@ -269,14 +339,17 @@ export default function App() {
               About Our<br />Company
             </h2>
             <p className="mt-5 max-w-[60ch] text-[#0d2f5e]/80 md:text-lg leading-relaxed">
-              HT-Power Pest Control Services prides itself on a holistic approach to pest management,
-              offering a wide range of services designed to address various pest infestations effectively.
-              From residential properties to commercial establishments, the company provides meticulous
-              inspections, strategic treatment plans, and ongoing maintenance to ensure long-term
-              pest-free environments.
+              Founded in 2024 by husband and wife John Paul Hapa and Sweet Telic-Hapa, HT-Power is a
+              proudly Filipino-owned company built on a family legacy. It honors John Paul's late father,
+              Robert Hapa, whose Robert General Pest Control Services has served homes and businesses since 1990.
+            </p>
+            <p className="mt-4 max-w-[60ch] text-[#0d2f5e]/80 leading-relaxed">
+              We carry forward those values of quality, honesty, and customer care while embracing modern
+              pest control technology — with meticulous inspections, strategic treatment plans, and ongoing
+              maintenance for long-term pest-free spaces.
             </p>
             <div className="mt-7 grid grid-cols-3 gap-4">
-              {[["100%", "Guarantee"], ["Free", "Estimates"], ["Expert", "Technicians"]].map(([a, b]) => (
+              {[["Since 1990", "Family Legacy"], ["Free", "Inspection"], ["FDA", "Approved Products"]].map(([a, b]) => (
                 <div key={b} className="rounded-2xl gradient-card p-4 text-center shadow-sm">
                   <div className="text-2xl font-black brand-navy">{a}</div>
                   <div className="text-xs font-semibold text-[#0d2f5e]/60">{b}</div>
@@ -286,14 +359,50 @@ export default function App() {
           </div>
           <div data-reveal className="opacity-0 relative">
             <div className="relative rounded-[2rem] overflow-hidden shadow-[0_25px_60px_-20px_rgba(13,47,94,0.5)]">
-              <img src={firstbaronImg} alt="HT-Power technician on-site" className="w-full h-full object-cover" />
+              <img src={bydBgcImg} alt="HT-Power technician treating the BYD BGC showroom" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0d2f5e]/40 to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-white/90 p-4">
-                <div className="flex items-center gap-2 text-[#0d2f5e] font-bold text-sm">
-                  <BadgeCheck className="h-5 w-5 brand-royal" /> First Baron Residences — General Pest Control
+                <div className="flex items-center gap-2 brand-navy font-bold text-sm">
+                  <BadgeCheck className="h-5 w-5 brand-royal" /> BYD – BGC Branch — General Pest Control
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-6xl px-5 mt-14 grid md:grid-cols-2 gap-6">
+          {[
+            { icon: Target, title: "Our Mission", text: "To provide top-notch pest control services using innovative and sustainable methods that create safe, healthy environments for residential and commercial clients — and to become the premier pest control company in the Philippines." },
+            { icon: Eye, title: "Our Vision", text: "To set the standard for excellence in pest management, with unwavering commitment to efficiency, safety, and environmental responsibility — a future where every space is free from pests, fostering health, comfort, and peace of mind." },
+          ].map((m, i) => (
+            <div key={m.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
+              className="opacity-0 rounded-2xl bg-white border border-border p-7 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl gradient-band text-white shadow">
+                  <m.icon className="h-6 w-6" />
+                </div>
+                <h3 className="font-display text-2xl brand-navy">{m.title}</h3>
+              </div>
+              <p className="mt-4 text-sm brand-navy opacity-80 leading-relaxed">{m.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CREDENTIALS */}
+      <section className="py-14 bg-white border-y border-border">
+        <div className="mx-auto max-w-6xl px-5">
+          <p className="text-center text-sm font-bold tracking-[0.2em] brand-royal" data-reveal>REGISTERED · ACCREDITED · SAFE</p>
+          <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {CREDENTIALS.map((c, i) => (
+              <div key={c.title} data-reveal style={{ animationDelay: `${i * 60}ms` }} className="opacity-0 text-center">
+                <div className="mx-auto grid h-14 w-14 place-items-center rounded-full gradient-card brand-royal shadow-sm">
+                  <c.icon className="h-7 w-7" />
+                </div>
+                <h3 className="mt-3 font-extrabold brand-navy">{c.title}</h3>
+                <p className="mt-1 text-xs brand-navy opacity-70 leading-relaxed max-w-[26ch] mx-auto">{c.text}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -338,7 +447,7 @@ export default function App() {
             <p className="text-sm font-bold tracking-[0.2em] brand-royal">CORE SERVICES</p>
             <h2 className="mt-3 font-display text-4xl md:text-5xl">Unleash the ultimate defense against pests</h2>
           </div>
-          <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {SERVICES.map((s, i) => (
               <div key={s.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
                 className="opacity-0 rounded-2xl p-7 flex flex-col bg-white border border-[#e2e9fb] hover:border-[#2952cc] hover:shadow-lg hover:-translate-y-1 transition-all">
@@ -348,6 +457,13 @@ export default function App() {
                 <h3 className="mt-5 font-extrabold">{s.title}</h3>
                 <p className="mt-2 text-sm text-[#16265e]/75">{s.text}</p>
               </div>
+            ))}
+          </div>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-2" data-reveal>
+            <span className="text-sm font-bold brand-navy mr-1">Pests we handle:</span>
+            {PESTS.map((p) => (
+              <span key={p} className="rounded-full bg-white border border-border px-4 py-1.5 text-sm font-semibold brand-royal">{p}</span>
             ))}
           </div>
 
@@ -381,11 +497,16 @@ export default function App() {
           </div>
           <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {PROJECTS.map((p, i) => (
-              <button key={p.name + i} type="button" onClick={() => setLightbox(i)} data-reveal style={{ animationDelay: `${i * 60}ms` }}
+              <button key={p.name} type="button" onClick={() => setLightbox({ p: i, i: 0 })} data-reveal style={{ animationDelay: `${i * 60}ms` }}
                 className="opacity-0 group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all text-left cursor-zoom-in">
-                <img src={p.img} alt={p.name} loading="lazy"
+                <img src={p.imgs[0]} alt={p.name} loading="lazy"
                   className="h-56 w-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0d2f5e]/85 via-[#0d2f5e]/10 to-transparent" />
+                {p.imgs.length > 1 && (
+                  <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-xs font-bold brand-navy">
+                    <Images className="h-3.5 w-3.5" /> {p.imgs.length} photos
+                  </span>
+                )}
                 <div className="absolute bottom-0 p-5 text-white">
                   <h3 className="font-extrabold text-lg leading-tight">{p.name}</h3>
                   <p className="text-sm text-[#a9d0ec] font-medium">{p.type}</p>
@@ -394,21 +515,67 @@ export default function App() {
               </button>
             ))}
           </div>
+
+          {/* CLIENT LIST */}
+          <div className="mt-20 rounded-[2rem] gradient-card border border-border p-8 md:p-10" data-reveal>
+            <h3 className="font-display text-3xl md:text-4xl text-center brand-navy">More clients we're proud to serve</h3>
+            <div className="mt-8 grid md:grid-cols-[2fr_1fr] gap-8">
+              {[CLIENTS.slice(0, 1), CLIENTS.slice(1)].map((col, ci) => (
+                <div key={ci} className="space-y-6">
+                  {col.map((c) => (
+                    <div key={c.group}>
+                      <p className="text-xs font-bold tracking-[0.2em] uppercase brand-royal">{c.group}</p>
+                      <ul className="mt-3 flex flex-wrap gap-2">
+                        {c.names.map((n) => (
+                          <li key={n} className="rounded-full bg-white px-3.5 py-1.5 text-sm font-semibold brand-navy shadow-sm">{n}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 text-center text-sm brand-navy opacity-70">Plus homeowners across Quezon City, Manila, Mandaluyong, Pasig, and BGC Taguig.</p>
+          </div>
         </div>
       </section>
 
       {/* PROJECT IMAGE LIGHTBOX */}
       <Dialog open={lightbox !== null} onOpenChange={(o) => !o && setLightbox(null)}>
-        <DialogContent className="max-w-4xl w-[92vw] p-0 bg-transparent border-none shadow-none">
-          {lightbox !== null && (
+        <DialogContent
+          className="max-w-4xl w-[92vw] p-0 bg-transparent border-none shadow-none"
+          onKeyDown={(e) => {
+            if (e.key === "ArrowRight") stepPhoto(1);
+            if (e.key === "ArrowLeft") stepPhoto(-1);
+          }}>
+          {lightbox && lbProject && (
             <>
-              <DialogTitle className="sr-only">{PROJECTS[lightbox].name}</DialogTitle>
-              <img src={PROJECTS[lightbox].img} alt={PROJECTS[lightbox].name}
-                className="w-full max-h-[80vh] object-contain rounded-2xl" />
-              <div className="rounded-b-2xl bg-[#0d2f5e] px-5 py-4 text-white -mt-1">
-                <h3 className="font-extrabold text-lg leading-tight">{PROJECTS[lightbox].name}</h3>
-                <p className="text-sm text-[#a9d0ec] font-medium">{PROJECTS[lightbox].type}</p>
-                <p className="mt-1 flex items-center gap-1 text-xs text-white/80"><MapPin className="h-3.5 w-3.5" /> {PROJECTS[lightbox].loc}</p>
+              <DialogTitle className="sr-only">{lbProject.name}</DialogTitle>
+              <div className="relative">
+                <img src={lbProject.imgs[lightbox.i]} alt={`${lbProject.name} — photo ${lightbox.i + 1} of ${lbProject.imgs.length}`}
+                  className="w-full max-h-[80vh] object-contain rounded-2xl" />
+                {lbProject.imgs.length > 1 && (
+                  <>
+                    <button type="button" onClick={() => stepPhoto(-1)} aria-label="Previous photo"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 grid h-11 w-11 place-items-center rounded-full bg-white/90 brand-navy shadow-lg hover:bg-white">
+                      <ChevronLeft className="h-6 w-6" />
+                    </button>
+                    <button type="button" onClick={() => stepPhoto(1)} aria-label="Next photo"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 grid h-11 w-11 place-items-center rounded-full bg-white/90 brand-navy shadow-lg hover:bg-white">
+                      <ChevronRight className="h-6 w-6" />
+                    </button>
+                  </>
+                )}
+              </div>
+              <div className="rounded-b-2xl bg-brand-ink px-5 py-4 text-white -mt-1 flex items-end justify-between gap-4">
+                <div>
+                  <h3 className="font-extrabold text-lg leading-tight">{lbProject.name}</h3>
+                  <p className="text-sm text-[#a9d0ec] font-medium">{lbProject.type}</p>
+                  <p className="mt-1 flex items-center gap-1 text-xs text-white/80"><MapPin className="h-3.5 w-3.5" /> {lbProject.loc}</p>
+                </div>
+                {lbProject.imgs.length > 1 && (
+                  <span className="text-xs font-semibold text-white/80 shrink-0">{lightbox.i + 1} / {lbProject.imgs.length}</span>
+                )}
               </div>
             </>
           )}
@@ -471,6 +638,32 @@ export default function App() {
               </div>
             ))}
           </div>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-2" data-reveal>
+            <span className="inline-flex items-center gap-1.5 text-sm font-bold brand-navy mr-1">
+              <CalendarClock className="h-4 w-4 brand-royal" /> Schedule treatments:
+            </span>
+            {SCHEDULES.map((s) => (
+              <span key={s} className="rounded-full bg-white border border-border px-4 py-1.5 text-sm font-semibold brand-royal">{s}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-20 md:py-28 bg-white">
+        <div className="mx-auto max-w-3xl px-5">
+          <div className="text-center max-w-2xl mx-auto" data-reveal>
+            <p className="text-sm font-bold tracking-[0.2em] brand-royal">FAQ</p>
+            <h2 className="mt-3 font-display text-4xl md:text-5xl">Frequently asked questions</h2>
+          </div>
+          <Accordion type="single" collapsible className="mt-12" data-reveal>
+            {FAQS.map((f) => (
+              <AccordionItem key={f.q} value={f.q} className="border-border">
+                <AccordionTrigger className="py-5 text-base font-bold brand-navy hover:no-underline hover:text-[#2952cc]">{f.q}</AccordionTrigger>
+                <AccordionContent className="brand-navy opacity-80 leading-relaxed text-[15px]">{f.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </section>
 
