@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import {
   Shield, Users, Award, Target, Mail, Phone, Menu, X, CheckCircle2, Bug, Home,
   Send, MapPin, ArrowRight, Star, Quote, ChevronLeft, ChevronRight, CalendarClock,
-  Droplets, Images
+  Droplets, Images, ArrowDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -18,7 +18,6 @@ import denza2Img from "./assets/photos/denza-2.jpg";
 import denza3Img from "./assets/photos/denza-3.jpg";
 import topRealty1Img from "./assets/photos/toprealty-1.jpg";
 import topRealty2Img from "./assets/photos/toprealty-2.jpg";
-import parkadsImg from "./assets/photos/parkads.jpg";
 import parkads2Img from "./assets/photos/parkads2.jpg";
 import firstbaronImg from "./assets/photos/firstbaron.jpg";
 import moanaImg from "./assets/photos/moana.jpg";
@@ -27,6 +26,7 @@ import farinasImg from "./assets/photos/farinas.jpg";
 import logoImg from "./assets/photos/logo.png";
 // Images taken from the client's 2026 company profile PDF
 import missionImg from "./assets/pdf/mission.jpg";
+import ourServicesImg from "./assets/pdf/our-services.jpg";
 import ownersImg from "./assets/pdf/owners.png";
 import weServeImg from "./assets/pdf/we-serve.jpg";
 import weDoImg from "./assets/pdf/we-do.jpg";
@@ -68,7 +68,7 @@ const PROJECTS = [
   { imgs: [chizmozzaImg], name: "Chizmozza PH – SM North Branch", loc: "SM North EDSA, Quezon City", type: "Termite Control Treatment" },
   { imgs: [farinasImg], name: "Fariñas Ilocos Empanada", loc: "Bagong Ilog, Pasig City", type: "General Pest Control" },
   { imgs: [firstbaronImg], name: "First Baron Tower Residences", loc: "Metro Manila", type: "General Pest Control" },
-  { imgs: [parkadsImg, parkads2Img], name: "Park Ads Inc.", loc: "Metro Manila", type: "General Pest Control" },
+  { imgs: [parkads2Img], name: "Park Ads Inc.", loc: "Metro Manila", type: "General Pest Control" },
   { imgs: [moanaImg], name: "Moana Café and Eatery", loc: "Metro Manila", type: "General Pest Control" },
 ];
 
@@ -178,6 +178,13 @@ const AT_HTPOWER = [
     ["Mosquitoes & Flies", "Vectors of dangerous diseases like dengue and malaria; we help reduce and prevent outbreaks."],
     ["Ants and Bugs", "From nuisance ants to creeping bugs, we handle them all."],
   ] },
+];
+
+// "Our Goals" page of the PDF, verbatim
+const GOALS = [
+  ["Enhance Customer Satisfaction", "Implement a comprehensive feedback system to ensure high levels of client satisfaction by addressing concerns promptly and tailoring services to meet specific client needs."],
+  ["Sustainable Practices", "Integrate eco-friendly pest control solutions to minimize environmental impact."],
+  ["Expand Market Reach", "Grow HT-Power's presence by 25% over the next two years by targeting new commercial and residential markets and leveraging digital marketing strategies to increase brand awareness."],
 ];
 
 const SCHEDULES = ["One-Time", "Monthly", "Bi-Monthly", "Quarterly"];
@@ -413,10 +420,32 @@ export default function App() {
         </div>
       </section>
 
+      {/* OUR GOALS — PDF page: gradient bars joined by arrows */}
+      <section className="pdf-corners py-20 md:py-28 bg-[#e9ecf1]">
+        <div className="mx-auto max-w-3xl px-5">
+          <h2 className="text-center font-display text-4xl md:text-5xl brand-navy" data-reveal>Our Goals</h2>
+          <ol className="mt-12">
+            {GOALS.map(([title, text], i) => (
+              <li key={title} data-reveal style={{ animationDelay: `${i * 60}ms` }} className="opacity-0">
+                {i > 0 && <ArrowDown className="mx-auto my-3 h-7 w-7 brand-navy" aria-hidden="true" />}
+                <p className="rounded-xl gradient-pdf px-6 py-6 text-white leading-relaxed text-justify text-shadow-soft">
+                  <strong>{title}:</strong> {text}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
       {/* SERVICES */}
       <section id="services" className="pdf-corners py-20 md:py-28 bg-[#f4f4f4]">
         <div className="mx-auto max-w-6xl px-5">
           <h2 className="text-center font-display text-4xl md:text-5xl brand-navy" data-reveal>Our Services</h2>
+          {/* Photo framed in navy, like the PDF's Our Services page */}
+          <div className="mt-10 mx-auto max-w-3xl rounded-2xl bg-brand-ink p-3 sm:p-5" data-reveal>
+            <img src={ourServicesImg} alt="Two HT-Power technicians inspecting a cabinet for pests" loading="lazy"
+              className="block w-full aspect-[4/3] object-cover rounded-lg" />
+          </div>
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {SERVICES.map((s, i) => (
               <div key={s.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
