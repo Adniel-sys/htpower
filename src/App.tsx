@@ -304,7 +304,7 @@ export default function App() {
         <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(22,38,94,0.92)_0%,rgba(41,82,204,0.55)_60%,rgba(41,82,204,0.2)_100%)]" />
         <div className="relative mx-auto max-w-6xl px-5 w-full">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/40 px-4 py-1.5 text-xs font-semibold text-white">
-            <Star className="h-3.5 w-3.5 fill-white text-white" /> 100% GUARANTEE · TRUSTED BY BUSINESSES
+            <Star className="h-3.5 w-3.5 fill-white text-white" /> BIR & DTI REGISTERED · TRUSTED BY BUSINESSES
           </span>
           <h1 className="mt-6 font-display text-shadow-soft">
             <span className="block text-2xl md:text-4xl text-[#a9bef0]">WHY</span>
@@ -418,7 +418,7 @@ export default function App() {
             </h2>
           </div>
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-6" data-reveal>
-            {[["100%", "Service Guarantee"], ["Free", "Estimates"], ["5.0", "Client Rating"], ["Eco", "Friendly Products"]].map(([a, b]) => (
+            {[["Free", "Site Inspection"], ["FDA", "Approved Products"], ["5.0", "Client Rating"], ["Eco", "Friendly Products"]].map(([a, b]) => (
               <div key={b} className="border-l-[3px] border-white/60 pl-4">
                 <div className="font-display text-3xl md:text-5xl"><CountUp value={a} /></div>
                 <div className="text-sm text-[#a9bef0] font-medium">{b}</div>
@@ -493,7 +493,7 @@ export default function App() {
           <div className="text-center max-w-2xl mx-auto" data-reveal>
             <p className="text-sm font-bold tracking-[0.2em] brand-royal">OUR WORK</p>
             <h2 className="mt-3 font-display text-4xl md:text-5xl">Trusted by leading establishments</h2>
-            <p className="mt-4 text-[#0d2f5e]/70">Real projects, backed by our 100% service guarantee.</p>
+            <p className="mt-4 text-[#0d2f5e]/70">Real projects, done with FDA-approved products and no hidden charges.</p>
           </div>
           <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {PROJECTS.map((p, i) => (
@@ -801,7 +801,7 @@ function ContactForm() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Commercial Businesses">Commercial Businesses</SelectItem>
-                <SelectItem value="Warehouses">Warehouses</SelectItem>
+                <SelectItem value="Industrial & Warehouses">Industrial & Warehouses</SelectItem>
                 <SelectItem value="Condo & Residential">Condo & Residential</SelectItem>
                 <SelectItem value="Other">Other</SelectItem>
               </SelectContent>
