@@ -5,24 +5,25 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222 60% 16%;
+    /* Palette from the 2026 company profile: navy #162b57, blue #18488f, sky #8ecce2, slate #717e9b, mist #e9ecf1 */
+    --foreground: 220 60% 21%;
     --card: 0 0% 100%;
-    --card-foreground: 222 60% 16%;
+    --card-foreground: 220 60% 21%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 60% 16%;
-    --primary: 225 73% 57%;
+    --popover-foreground: 220 60% 21%;
+    --primary: 216 71% 33%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 222 60% 96%;
-    --secondary-foreground: 225 73% 40%;
-    --muted: 222 40% 96%;
-    --muted-foreground: 222 20% 42%;
-    --accent: 222 70% 92%;
-    --accent-foreground: 225 73% 40%;
+    --secondary: 218 22% 93%;
+    --secondary-foreground: 216 71% 33%;
+    --muted: 218 22% 93%;
+    --muted-foreground: 222 15% 41%;
+    --accent: 196 58% 72%;
+    --accent-foreground: 220 60% 21%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 222 40% 88%;
-    --input: 222 40% 88%;
-    --ring: 225 73% 57%;
+    --border: 218 24% 87%;
+    --input: 218 24% 87%;
+    --ring: 216 71% 33%;
     --radius: 0.5rem;
   }
 }
@@ -33,32 +34,37 @@
   h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; }
 }
 
-/* Royal-blue brand system */
+/* Brand system — colors follow the 2026 company profile PDF */
 .font-display { font-family: 'Archivo', sans-serif; font-weight: 900; letter-spacing: -0.02em; line-height: 0.95; }
-.brand-royal { color: #2952cc; }
-.bg-brand-royal { background-color: #2952cc; }
-.brand-ink { color: #16265e; }
-.bg-brand-ink { background-color: #16265e; }
-.accent-gold { color: #f2b807; }
-.bg-accent-gold { background-color: #f2b807; }
-.gradient-hero { background: linear-gradient(180deg, #eaf0ff 0%, #a9bef0 45%, #4169E1 100%); }
-.gradient-band { background: linear-gradient(160deg, #4169E1 0%, #16265e 100%); }
-.gradient-soft { background: linear-gradient(180deg, #ffffff 0%, #eef2fe 100%); }
-.gradient-card { background: linear-gradient(180deg, #f5f8ff 0%, #dde6fb 100%); }
-.text-shadow-soft { text-shadow: 0 2px 12px rgba(22,38,94,0.18); }
+.brand-royal { color: #18488f; }
+.bg-brand-royal { background-color: #18488f; }
+.brand-ink { color: #162b57; }
+.bg-brand-ink { background-color: #162b57; }
+/* The deep-blue → sky-blue bar used on the PDF's Core Values cards (stops sampled from the PDF) */
+.gradient-pdf { background: linear-gradient(90deg, #11408a 0%, #3365a2 40%, #6098c2 75%, #8ac8e0 100%); }
+.brand-sky { color: #8ecce2; }
 
-@keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-.animate-floaty { animation: floaty 6s ease-in-out infinite; }
+/* PDF page motif: navy + slate triangles in the corners of light sections */
+.pdf-corners { position: relative; overflow: hidden; }
+.pdf-corners::before, .pdf-corners::after { content: ""; position: absolute; pointer-events: none; }
+.pdf-corners::before { left: 0; bottom: 0; width: 180px; height: 90px; background: #162b57;
+  clip-path: polygon(0 0, 100% 100%, 0 100%); box-shadow: none; }
+.pdf-corners::after { right: 0; top: 0; width: 160px; height: 80px;
+  background: linear-gradient(135deg, transparent 50%, #717e9b 50%, #717e9b 62%, #162b57 62%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%); }
+.pdf-corners > * { position: relative; z-index: 1; }
+.text-shadow-soft { text-shadow: 0 2px 12px rgba(22,43,87,0.18); }
+
 @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
 .animate-fadeup { opacity: 1; animation: fadeUp .7s ease both; will-change: transform, opacity; }
 
 /* a11y */
-:focus-visible { outline: 3px solid #4169E1; outline-offset: 2px; border-radius: 6px; }
+:focus-visible { outline: 3px solid #18488f; outline-offset: 2px; border-radius: 6px; }
 @media (prefers-reduced-motion: reduce) {
-  .animate-floaty, .animate-fadeup { animation: none !important; }
+  .animate-fadeup { animation: none !important; }
   html, * { scroll-behavior: auto !important; }
 }
 
-/* aliases: existing markup -> royal */
-.brand-navy { color: #16265e; }
-.bg-brand-navy { background-color: #2952cc; }
+/* aliases: existing markup -> PDF palette */
+.brand-navy { color: #162b57; }
+.bg-brand-navy { background-color: #18488f; }
