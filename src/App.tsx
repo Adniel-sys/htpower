@@ -238,37 +238,37 @@ export default function App() {
       {/* NAV */}
       <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? "bg-white/95 shadow-[0_2px_20px_rgba(22,43,87,0.08)]" : "bg-transparent"}`}>
         <nav className="mx-auto max-w-7xl px-5 h-16 flex items-center justify-between">
-          <button onClick={() => scrollTo("home")} className="flex items-center gap-2">
+          <button onClick={() => scrollTo("home")} className="flex items-center gap-2 shrink-0">
             <img src={logoImg} alt="HT-Power Pest Control logo" className="h-9 w-9 rounded-full object-cover" />
-            <span className={`font-extrabold tracking-tight text-lg ${scrolled ? "brand-navy" : "text-white"}`}>
+            <span className={`font-extrabold tracking-tight text-lg whitespace-nowrap ${scrolled ? "brand-navy" : "text-white"}`}>
               HT-POWER<span className={`block text-[10px] font-semibold tracking-[0.22em] -mt-1 ${scrolled ? "text-[#18488f]" : "text-white/80"}`}>PEST CONTROL</span>
             </span>
           </button>
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden xl:flex items-center gap-1">
             {NAV.map((n) => (
               <button key={n.id} onClick={() => scrollTo(n.id)}
-                className={`px-4 py-2 text-sm font-semibold transition-colors ${scrolled ? "text-[#162b57]/80 hover:text-[#18488f]" : "text-white/90 hover:text-white"}`}>
+                className={`px-3 py-2 text-sm font-semibold whitespace-nowrap transition-colors ${scrolled ? "text-[#162b57]/80 hover:text-[#18488f]" : "text-white/90 hover:text-white"}`}>
                 {n.label}
               </button>
             ))}
             <a href={IG_URL} target="_blank" rel="noopener noreferrer"
-              className={`ml-1 grid h-9 w-9 place-items-center rounded-full transition ${scrolled ? "text-[#162b57]/70 hover:text-[#18488f] hover:bg-[#e9ecf1]" : "text-white/80 hover:text-white hover:bg-white/10"}`} aria-label="Instagram">
+              className={`ml-1 grid h-9 w-9 shrink-0 place-items-center rounded-full transition ${scrolled ? "text-[#162b57]/70 hover:text-[#18488f] hover:bg-[#e9ecf1]" : "text-white/80 hover:text-white hover:bg-white/10"}`} aria-label="Instagram">
               <Instagram className="h-5 w-5" />
             </a>
             <a href={FB_URL} target="_blank" rel="noopener noreferrer"
-              className={`grid h-9 w-9 place-items-center rounded-full transition ${scrolled ? "text-[#162b57]/70 hover:text-[#18488f] hover:bg-[#e9ecf1]" : "text-white/80 hover:text-white hover:bg-white/10"}`} aria-label="Facebook">
+              className={`grid h-9 w-9 shrink-0 place-items-center rounded-full transition ${scrolled ? "text-[#162b57]/70 hover:text-[#18488f] hover:bg-[#e9ecf1]" : "text-white/80 hover:text-white hover:bg-white/10"}`} aria-label="Facebook">
               <Facebook className="h-5 w-5" />
             </a>
             <Button onClick={() => scrollTo("contact")} className="ml-1 bg-brand-royal hover:brightness-95 text-white rounded-full px-5 font-semibold">
               Get a Quote
             </Button>
           </div>
-          <button className={`lg:hidden ${scrolled ? "text-[#162b57]" : "text-white"}`} onClick={() => setOpen((o) => !o)} aria-label="menu">
+          <button className={`xl:hidden grid h-11 w-11 -mr-2 place-items-center rounded-full ${scrolled ? "text-[#162b57]" : "text-white"}`} onClick={() => setOpen((o) => !o)} aria-label="menu">
             {open ? <X /> : <Menu />}
           </button>
         </nav>
         {open && (
-          <div className="lg:hidden bg-white border-t border-[#d5dbe5] px-5 py-3">
+          <div className="xl:hidden bg-white border-t border-[#d5dbe5] px-5 py-3">
             {NAV.map((n) => (
               <button key={n.id} onClick={() => scrollTo(n.id)} className="block w-full text-left py-2.5 font-semibold text-[#162b57]/80">
                 {n.label}
@@ -316,13 +316,13 @@ export default function App() {
         <div className="mx-auto max-w-3xl px-5">
           <div data-reveal className="opacity-0">
             <h2 className="text-center font-display text-4xl md:text-5xl brand-navy">About Company</h2>
-            <p className="mt-8 brand-navy md:text-lg leading-relaxed text-justify">
+            <p className="mt-8 brand-navy md:text-lg leading-relaxed md:text-justify">
               Founded in 2024, HT-Power Pest Control Services is a proudly Filipino-owned company born
               from a legacy of dedication, discipline, and excellence in pest management. Established by
               Mr. John Paul Hapa and his wife, the company is a tribute to his late father, Mr. Robert Hapa,
               the founder of Robert General Pest Control Services, which began serving homes and businesses in 1990.
             </p>
-            <p className="mt-5 brand-navy md:text-lg leading-relaxed text-justify">
+            <p className="mt-5 brand-navy md:text-lg leading-relaxed md:text-justify">
               Built on decades of experience, HT-Power inherits the traditional values of quality service,
               honesty, and customer care, while embracing modern innovations in pest control technology.
               Mr. John Paul Hapa, having trained and worked extensively under his father's leadership,
@@ -340,7 +340,7 @@ export default function App() {
           <div className="mt-12 grid lg:grid-cols-[1fr_1.15fr] items-stretch" data-reveal>
             <img src={missionImg} alt="HT-Power technician fogging with a thermal fogger"
               className="w-full h-64 lg:h-full object-cover rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none" />
-            <div className="bg-brand-ink text-white p-8 md:p-10 rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none space-y-6 text-justify leading-relaxed">
+            <div className="bg-brand-ink text-white p-8 md:p-10 rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none space-y-6 md:text-justify leading-relaxed">
               <p>HT-POWER PEST CONTROL SERVICES is committed to providing top-notch pest control services, utilizing innovative and sustainable methods to create safe and healthy environments for our residential and commercial clients. Our goal is to be the premier pest control company in the Philippines through exceptional service and environmental responsibility.</p>
               <p>Striving to be the trusted partner in pest management, our vision is to set the standard for excellence in the industry. With unwavering commitment to efficiency, safety, and environmental responsibility. Through continuous innovation and a dedication to customer satisfaction, we envision a future where every space is free from pest intrusion, fostering health, comfort, and peace of mind for all.</p>
             </div>
@@ -353,7 +353,7 @@ export default function App() {
         <div className="mx-auto max-w-6xl px-5 grid md:grid-cols-[1.4fr_1fr] gap-10 items-end">
           <div data-reveal className="opacity-0 pb-20 md:pb-28">
             <h2 className="font-display text-4xl md:text-5xl brand-navy">Owner's Message</h2>
-            <blockquote className="mt-6 space-y-4 brand-navy leading-relaxed text-justify">
+            <blockquote className="mt-6 space-y-4 brand-navy leading-relaxed md:text-justify">
               <p>At <strong>HT-Power Pest Control Services</strong>, this business is more than just a livelihood — it's a legacy built with passion, perseverance, and a genuine desire to serve.</p>
               <p>As husband and wife, we — <strong>John Paul Hapa and Sweet Telic-Hapa</strong> — founded HT-Power to honor a family tradition while creating a brand that reflects our own values: trust, excellence, and commitment.</p>
               <p>With John Paul's roots in the industry — shaped by years of working under his late father's well-respected pest control company — and Sweet's expertise in finance and client service management, we've built HT-Power as a fusion of legacy and innovation.</p>
@@ -366,7 +366,7 @@ export default function App() {
               John Paul Hapa &amp; Sweet Telic-Hapa<br />Founders, HT-Power Pest Control Services
             </p>
           </div>
-          <img src={ownersImg} alt="John Paul Hapa and Sweet Telic-Hapa, founders of HT-Power" loading="lazy"
+          <img src={ownersImg} alt="John Paul Hapa and Sweet Telic-Hapa, founders of HT-Power" width={440} height={660} loading="lazy"
             className="mx-auto w-full max-w-sm md:max-w-none self-end" />
         </div>
       </section>
@@ -385,7 +385,7 @@ export default function App() {
                   </div>
                   <h3 className="text-sm font-extrabold uppercase tracking-wide text-center">{c.title}</h3>
                 </div>
-                <p className="p-6 text-sm leading-relaxed self-center text-justify">{c.text}</p>
+                <p className="p-6 text-sm leading-relaxed self-center md:text-justify">{c.text}</p>
               </div>
             ))}
           </div>
@@ -428,7 +428,7 @@ export default function App() {
             {GOALS.map(([title, text], i) => (
               <li key={title} data-reveal style={{ animationDelay: `${i * 60}ms` }} className="opacity-0">
                 {i > 0 && <ArrowDown className="mx-auto my-3 h-7 w-7 brand-navy" aria-hidden="true" />}
-                <p className="rounded-xl gradient-pdf px-6 py-6 text-white leading-relaxed text-justify text-shadow-soft">
+                <p className="rounded-xl gradient-pdf px-6 py-6 text-white leading-relaxed md:text-justify text-shadow-soft">
                   <strong>{title}:</strong> {text}
                 </p>
               </li>
@@ -454,7 +454,7 @@ export default function App() {
                   <s.icon className="h-7 w-7" />
                 </div>
                 <h3 className="mt-5 font-extrabold brand-navy">{s.title}</h3>
-                <p className="mt-2 text-sm brand-navy opacity-80 leading-relaxed text-justify">{s.text}</p>
+                <p className="mt-2 text-sm brand-navy opacity-80 leading-relaxed md:text-justify">{s.text}</p>
               </div>
             ))}
           </div>
