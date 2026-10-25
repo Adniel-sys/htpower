@@ -40,15 +40,8 @@
 .bg-brand-royal { background-color: #18488f; }
 .brand-ink { color: #162b57; }
 .bg-brand-ink { background-color: #162b57; }
-.accent-gold { color: #f2b807; }
-.bg-accent-gold { background-color: #f2b807; }
-.gradient-hero { background: linear-gradient(180deg, #f4f4f4 0%, #8ecce2 45%, #18488f 100%); }
-.gradient-band { background: linear-gradient(160deg, #18488f 0%, #162b57 100%); }
-.gradient-soft { background: linear-gradient(180deg, #f4f4f4 0%, #e9ecf1 100%); }
-.gradient-card { background: linear-gradient(180deg, #ffffff 0%, #e9ecf1 100%); }
-/* The deep-blue → sky-blue bar used on the PDF's Core Values and Goals cards */
+/* The deep-blue → sky-blue bar used on the PDF's Core Values cards (stops sampled from the PDF) */
 .gradient-pdf { background: linear-gradient(90deg, #11408a 0%, #3365a2 40%, #6098c2 75%, #8ac8e0 100%); }
-.bg-slate-accent { background-color: #717e9b; }
 .brand-sky { color: #8ecce2; }
 
 /* PDF page motif: navy + slate triangles in the corners of light sections */
@@ -62,15 +55,13 @@
 .pdf-corners > * { position: relative; z-index: 1; }
 .text-shadow-soft { text-shadow: 0 2px 12px rgba(22,43,87,0.18); }
 
-@keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-.animate-floaty { animation: floaty 6s ease-in-out infinite; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
 .animate-fadeup { opacity: 1; animation: fadeUp .7s ease both; will-change: transform, opacity; }
 
 /* a11y */
 :focus-visible { outline: 3px solid #18488f; outline-offset: 2px; border-radius: 6px; }
 @media (prefers-reduced-motion: reduce) {
-  .animate-floaty, .animate-fadeup { animation: none !important; }
+  .animate-fadeup { animation: none !important; }
   html, * { scroll-behavior: auto !important; }
 }
 

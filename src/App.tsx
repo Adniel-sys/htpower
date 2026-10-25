@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import {
-  Shield, Sprout, Users, Award, Target, HeartHandshake,
-  Mail, Phone, Menu, X, CheckCircle2, Bug, Home, Building2,
-  Send, MapPin, ArrowRight, Star, Quote, BadgeCheck,
-  ClipboardCheck, ChevronLeft,
-  ChevronRight, CalendarClock, Droplets, Shovel, Images, Factory
+  Shield, Users, Award, Target, Mail, Phone, Menu, X, CheckCircle2, Bug, Home,
+  Send, MapPin, ArrowRight, Star, Quote, ChevronLeft, ChevronRight, CalendarClock,
+  Droplets, Images
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -24,7 +22,6 @@ import parkadsImg from "./assets/photos/parkads.jpg";
 import parkads2Img from "./assets/photos/parkads2.jpg";
 import firstbaronImg from "./assets/photos/firstbaron.jpg";
 import moanaImg from "./assets/photos/moana.jpg";
-import ctaImg from "./assets/photos/cta.jpg";
 import chizmozzaImg from "./assets/photos/chizmozza.jpg";
 import farinasImg from "./assets/photos/farinas.jpg";
 import logoImg from "./assets/photos/logo.png";
@@ -125,31 +122,10 @@ const TESTIMONIALS = [
   { name: "Irish Santos", date: "Feb 26, 2024", text: "Great service! Thank you very much!" },
 ];
 
-/* ---------- Reusable sprayer/drone background motif ---------- */
-function SprayerMotif({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 600 300" className={className} fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <g opacity="0.5" stroke="#162b57" strokeOpacity="0.28" strokeWidth="6" strokeLinecap="round">
-        <line x1="40" y1="70" x2="560" y2="70" />
-        <rect x="250" y="70" width="100" height="46" rx="10" />
-        <line x1="300" y1="116" x2="300" y2="200" />
-        <path d="M300 200 q-30 40 -60 60" />
-        <rect x="215" y="200" width="26" height="40" rx="6" />
-        <rect x="360" y="200" width="26" height="40" rx="6" />
-      </g>
-      <g opacity="0.35" fill="#3365a2">
-        {Array.from({ length: 18 }).map((_, i) => (
-          <circle key={i} cx={210 + i * 7} cy={260 + (i % 3) * 6} r="2.4" />
-        ))}
-      </g>
-    </svg>
-  );
-}
-
 const NAV = [
   { label: "Home", id: "home" },
   { label: "About", id: "about" },
-  { label: "Why Us", id: "why" },
+  { label: "Core Values", id: "why" },
   { label: "Services", id: "services" },
   { label: "Projects", id: "projects" },
   { label: "Reviews", id: "reviews" },
@@ -164,12 +140,6 @@ const CORE_VALUES = [
   { icon: Users, title: "Team Collaboration", text: "We value and respect the contributions of every team member. By fostering a collaborative and inclusive work environment, we leverage the diverse skills and experiences of our team to achieve collective success." },
 ];
 
-const WE_PROVIDE = [
-  { icon: HeartHandshake, title: "Preservation of Life", text: "By controlling pests that carry harmful diseases, we help protect the well-being of you and your loved ones." },
-  { icon: Home, title: "Protection of Health and Properties", text: "Our methods are designed to safeguard both human health and the structural integrity of your space." },
-  { icon: ClipboardCheck, title: "Personalized Treatment", text: "We don't believe in one-size-fits-all solutions. Every service is tailored to your specific pest problem." },
-  { icon: Sprout, title: "Peace of Mind", text: "With HT-Power on the job, you can rest easy knowing your environment is in capable hands." },
-];
 
 const PHONE2 = "0919-585-2528";
 const FB_URL = "https://fb.com/HTPOWERPestControl";
@@ -181,29 +151,36 @@ const SERVICES = [
   { icon: Droplets, title: "Reticulation System", text: "Our reticulation system delivers pest control treatments through a network of pipes or tubing, ensuring even and precise coverage across your property. This method improves effectiveness, reduces chemical waste, saves time, and provides consistent, long-lasting protection for both indoor and outdoor areas." },
 ];
 
-const WE_DO = [
-  { icon: Shovel, title: "Soil Poisoning", text: "Pre- and post-construction soil treatment to prevent termite infestations at the root level." },
-  { icon: Bug, title: "Pest Extermination", text: "Fast and effective elimination of existing pest populations in homes or businesses." },
-  { icon: Shield, title: "Pest Control and Prevention", text: "Long-term, proactive solutions to keep infestations from returning." },
-  { icon: Sprout, title: "Termite Baiting System", text: "Environmentally responsible termite control using advanced baiting technology." },
-  { icon: ClipboardCheck, title: "Pest Management", text: "Integrated Pest Management (IPM) programs tailored to your environment and industry needs." },
-];
-
-const PESTS = [
-  { name: "Termites", text: "Silent destroyers of wood and structures; we stop them before they cause major damage." },
-  { name: "Roaches", text: "Common carriers of bacteria; we eliminate them efficiently." },
-  { name: "Rats", text: "Known for spreading diseases and property damage; we offer complete rodent control solutions." },
-  { name: "Mosquitoes & Flies", text: "Vectors of dangerous diseases like dengue and malaria; we help reduce and prevent outbreaks." },
-  { name: "Ants and Bugs", text: "From nuisance ants to creeping bugs, we handle them all." },
+// "AT HT-POWER …" pages of the PDF, in the PDF's order
+const AT_HTPOWER = [
+  { title: "1. WE SERVE", intro: "We cater to a diverse range of clients, ensuring that every property — big or small — gets the protection it deserves.", items: [
+    ["Residential", "Safeguarding homes and families from unwanted pests and health risks."],
+    ["Commercial", "Supporting businesses by maintaining clean and pest-free environments that meet safety standards."],
+    ["Industrial", "Providing large-scale pest control solutions for factories, warehouses, and production sites with precision and compliance."],
+  ] },
+  { title: "2. WE PROVIDE", intro: "Our services go beyond just pest elimination. We're committed to delivering value through protection, care, and peace of mind.", items: [
+    ["Preservation of Life", "By controlling pests that carry harmful diseases, we help protect the well-being of you and your loved ones."],
+    ["Protection of Health and Properties", "Our methods are designed to safeguard both human health and the structural integrity of your space."],
+    ["Personalized Treatment", "We don't believe in one-size-fits-all solutions. Every service is tailored to your specific pest problem."],
+    ["Peace of Mind", "With HT-Power on the job, you can rest easy knowing your environment is in capable hands."],
+  ] },
+  { title: "3. WE DO", intro: "We offer a wide range of professional pest control services using science-based methods and modern equipment.", items: [
+    ["Soil Poisoning", "Pre- and post-construction soil treatment to prevent termite infestations at the root level."],
+    ["Pest Extermination", "Fast and effective elimination of existing pest populations in homes or businesses."],
+    ["Pest Control and Prevention", "Long-term, proactive solutions to keep infestations from returning."],
+    ["Termite Baiting System", "Environmentally responsible termite control using advanced baiting technology."],
+    ["Pest Management", "Integrated Pest Management (IPM) programs tailored to your environment and industry needs."],
+  ] },
+  { title: "4. WE DEAL", intro: "We are equipped to address a wide variety of pests with expertise and care.", items: [
+    ["Termites", "Silent destroyers of wood and structures; we stop them before they cause major damage."],
+    ["Roaches", "Common carriers of bacteria; we eliminate them efficiently."],
+    ["Rats", "Known for spreading diseases and property damage; we offer complete rodent control solutions."],
+    ["Mosquitoes & Flies", "Vectors of dangerous diseases like dengue and malaria; we help reduce and prevent outbreaks."],
+    ["Ants and Bugs", "From nuisance ants to creeping bugs, we handle them all."],
+  ] },
 ];
 
 const SCHEDULES = ["One-Time", "Monthly", "Bi-Monthly", "Quarterly"];
-
-const CATEGORIES = [
-  { icon: Home, title: "Residential", text: "Safeguarding homes and families from unwanted pests and health risks." },
-  { icon: Building2, title: "Commercial", text: "Supporting businesses by maintaining clean and pest-free environments that meet safety standards." },
-  { icon: Factory, title: "Industrial", text: "Providing large-scale pest control solutions for factories, warehouses, and production sites with precision and compliance." },
-];
 
 const WHAT_TO_EXPECT = [
   "Free site inspection within serviceable areas",
@@ -257,7 +234,7 @@ export default function App() {
           <button onClick={() => scrollTo("home")} className="flex items-center gap-2">
             <img src={logoImg} alt="HT-Power Pest Control logo" className="h-9 w-9 rounded-full object-cover" />
             <span className={`font-extrabold tracking-tight text-lg ${scrolled ? "brand-navy" : "text-white"}`}>
-              HT-POWER<span className={`block text-[10px] font-semibold tracking-[0.22em] -mt-1 ${scrolled ? "text-[#18488f]" : "text-[#cfe7f1]"}`}>PEST CONTROL</span>
+              HT-POWER<span className={`block text-[10px] font-semibold tracking-[0.22em] -mt-1 ${scrolled ? "text-[#18488f]" : "text-white/80"}`}>PEST CONTROL</span>
             </span>
           </button>
           <div className="hidden lg:flex items-center gap-1">
@@ -297,22 +274,15 @@ export default function App() {
 
       {/* HERO */}
       <section id="home" className="relative min-h-[620px] flex items-center overflow-hidden bg-brand-ink pt-20">
-        <img src={ctaImg} alt="" aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover grayscale opacity-90" />
-        <div className="absolute inset-0 bg-[#18488f] mix-blend-multiply" />
-        <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(22,43,87,0.92)_0%,rgba(24,72,143,0.55)_60%,rgba(24,72,143,0.2)_100%)]" />
         <div className="relative mx-auto max-w-6xl px-5 w-full">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/40 px-4 py-1.5 text-xs font-semibold text-white">
-            <Star className="h-3.5 w-3.5 fill-white text-white" /> BIR & DTI REGISTERED · PCAP MEMBER
-          </span>
-          <h1 className="mt-6 font-display text-shadow-soft">
-            <span className="block text-2xl md:text-4xl text-[#8ecce2]">WHY</span>
-            <span className="block text-6xl md:text-8xl text-white">HT-<span className="text-[#8ecce2]">POWER</span></span>
-            <span className="block mt-3 text-lg md:text-2xl text-[#cfe7f1] font-semibold" style={{ fontFamily: "Poppins" }}>
+          <h1 className="font-display">
+            <span className="block text-2xl md:text-4xl brand-sky">WHY</span>
+            <span className="block text-6xl md:text-8xl text-white">HT-<span className="brand-sky">POWER</span></span>
+            <span className="block mt-3 text-lg md:text-2xl text-white font-semibold" style={{ fontFamily: "Poppins" }}>
               is your top choice for pest control services
             </span>
           </h1>
-          <p className="mt-6 max-w-xl text-[#cfe7f1] md:text-lg">
+          <p className="mt-6 max-w-xl text-white/90 md:text-lg">
             We believe great service doesn't have to come with a big price tag — just real people,
             real work, and real results.
           </p>
@@ -330,48 +300,25 @@ export default function App() {
       </section>
 
       {/* ABOUT */}
-      <section id="about" className="relative gradient-soft py-20 md:py-28">
-        <div className="mx-auto max-w-6xl px-5 grid md:grid-cols-2 gap-12 items-center">
+      <section id="about" className="pdf-corners py-20 md:py-28 bg-[#f4f4f4]">
+        <div className="mx-auto max-w-3xl px-5">
           <div data-reveal className="opacity-0">
-            <p className="text-sm font-bold tracking-[0.2em] brand-royal">ABOUT HT-POWER</p>
-            <h2 className="mt-3 text-4xl md:text-5xl font-black leading-[0.95] text-[#18488f]">
-              About Our<br />Company
-            </h2>
-            <p className="mt-5 max-w-[60ch] text-[#162b57]/80 md:text-lg leading-relaxed">
+            <h2 className="text-center font-display text-4xl md:text-5xl brand-navy">About Company</h2>
+            <p className="mt-8 brand-navy md:text-lg leading-relaxed text-justify">
               Founded in 2024, HT-Power Pest Control Services is a proudly Filipino-owned company born
               from a legacy of dedication, discipline, and excellence in pest management. Established by
               Mr. John Paul Hapa and his wife, the company is a tribute to his late father, Mr. Robert Hapa,
               the founder of Robert General Pest Control Services, which began serving homes and businesses in 1990.
             </p>
-            <p className="mt-4 max-w-[60ch] text-[#162b57]/80 leading-relaxed">
+            <p className="mt-5 brand-navy md:text-lg leading-relaxed text-justify">
               Built on decades of experience, HT-Power inherits the traditional values of quality service,
               honesty, and customer care, while embracing modern innovations in pest control technology.
               Mr. John Paul Hapa, having trained and worked extensively under his father's leadership,
               carries with him the technical know-how, professionalism, and customer-centric approach that
               made the Hapa name respected in the industry.
             </p>
-            <div className="mt-7 grid grid-cols-3 gap-4">
-              {[["Since 1990", "Family Legacy"], ["Free", "Inspection"], ["FDA", "Approved Products"]].map(([a, b]) => (
-                <div key={b} className="rounded-2xl gradient-card p-4 text-center shadow-sm">
-                  <div className="text-2xl font-black brand-navy">{a}</div>
-                  <div className="text-xs font-semibold text-[#162b57]/60">{b}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div data-reveal className="opacity-0 relative">
-            <div className="relative rounded-[2rem] overflow-hidden shadow-[0_25px_60px_-20px_rgba(22,43,87,0.5)]">
-              <img src={bydBgcImg} alt="HT-Power technician treating the BYD Taguig showroom" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#162b57]/40 to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-white/90 p-4">
-                <div className="flex items-center gap-2 brand-navy font-bold text-sm">
-                  <BadgeCheck className="h-5 w-5 brand-royal" /> BYD – Taguig — General Pest Control
-                </div>
-              </div>
-            </div>
           </div>
         </div>
-
       </section>
 
       {/* MISSION AND VISION — layout follows the PDF page: photo with a navy text panel */}
@@ -382,14 +329,8 @@ export default function App() {
             <img src={missionImg} alt="HT-Power technician fogging with a thermal fogger"
               className="w-full h-64 lg:h-full object-cover rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none" />
             <div className="bg-brand-ink text-white p-8 md:p-10 rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none space-y-6 text-justify leading-relaxed">
-              <div>
-                <h3 className="font-display text-2xl brand-sky text-left">Mission</h3>
-                <p className="mt-3">HT-POWER PEST CONTROL SERVICES is committed to providing top-notch pest control services, utilizing innovative and sustainable methods to create safe and healthy environments for our residential and commercial clients. Our goal is to be the premier pest control company in the Philippines through exceptional service and environmental responsibility.</p>
-              </div>
-              <div>
-                <h3 className="font-display text-2xl brand-sky text-left">Vision</h3>
-                <p className="mt-3">Striving to be the trusted partner in pest management, our vision is to set the standard for excellence in the industry. With unwavering commitment to efficiency, safety, and environmental responsibility. Through continuous innovation and a dedication to customer satisfaction, we envision a future where every space is free from pest intrusion, fostering health, comfort, and peace of mind for all.</p>
-              </div>
+              <p>HT-POWER PEST CONTROL SERVICES is committed to providing top-notch pest control services, utilizing innovative and sustainable methods to create safe and healthy environments for our residential and commercial clients. Our goal is to be the premier pest control company in the Philippines through exceptional service and environmental responsibility.</p>
+              <p>Striving to be the trusted partner in pest management, our vision is to set the standard for excellence in the industry. With unwavering commitment to efficiency, safety, and environmental responsibility. Through continuous innovation and a dedication to customer satisfaction, we envision a future where every space is free from pest intrusion, fostering health, comfort, and peace of mind for all.</p>
             </div>
           </div>
         </div>
@@ -425,8 +366,8 @@ export default function App() {
           <div className="mt-12 grid md:grid-cols-2 gap-6">
             {CREDENTIALS.map((c, i) => (
               <div key={c.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
-                className="opacity-0 flex flex-col sm:flex-row items-stretch rounded-2xl overflow-hidden bg-brand-ink text-white shadow-lg">
-                <div className="sm:w-40 shrink-0 flex flex-col items-center justify-center gap-3 p-5 bg-[#11264d]">
+                className="opacity-0 flex flex-col sm:flex-row items-stretch rounded-2xl overflow-hidden bg-brand-ink text-white">
+                <div className="sm:w-40 shrink-0 flex flex-col items-center justify-center gap-3 p-5 border-b sm:border-b-0 sm:border-r border-white/20">
                   <div className="grid h-24 w-24 place-items-center rounded-xl bg-white p-2">
                     <img src={c.logo} alt={`${c.title} logo`} loading="lazy" className="max-h-full max-w-full object-contain" />
                   </div>
@@ -442,7 +383,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* WHY US — dark anchor */}
+      {/* CORE VALUES */}
       <section id="why" className="pdf-corners py-20 md:py-28 bg-[#f4f4f4]">
         <div className="mx-auto max-w-4xl px-5">
           <h2 className="text-center font-display text-4xl md:text-5xl brand-navy" data-reveal>HT-POWER'S CORE VALUES</h2>
@@ -454,30 +395,13 @@ export default function App() {
                   <span className="pb-1 text-sm md:text-base font-extrabold uppercase tracking-wide">{r.title.slice(1)}</span>
                 </div>
                 <div className="relative mt-1 flex items-center">
-                  <div className="absolute left-0 z-10 grid h-14 w-14 md:h-16 md:w-16 place-items-center rounded-full bg-brand-ink text-white ring-4 ring-white shadow-lg">
+                  <div className="absolute left-0 z-10 grid h-14 w-14 md:h-16 md:w-16 place-items-center rounded-full bg-brand-ink text-white ring-4 ring-white">
                     <r.icon className="h-7 w-7" />
                   </div>
-                  <p className="ml-7 md:ml-8 w-full rounded-2xl gradient-pdf py-5 pl-12 pr-6 md:pl-14 text-sm md:text-[15px] text-white leading-relaxed text-shadow-soft shadow-md">
+                  <p className="ml-7 md:ml-8 w-full rounded-2xl gradient-pdf py-5 pl-12 pr-6 md:pl-14 text-sm md:text-[15px] text-white leading-relaxed text-shadow-soft">
                     {r.text}
                   </p>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mx-auto max-w-6xl px-5 mt-20">
-          <h3 className="font-display text-3xl md:text-4xl brand-navy" data-reveal>At <span className="bg-brand-ink text-white px-3 py-1">HT-POWER</span> … we provide</h3>
-          <p className="mt-4 max-w-3xl brand-navy" data-reveal>Our services go beyond just pest elimination. We're committed to delivering value through protection, care, and peace of mind.</p>
-          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {WE_PROVIDE.map((r, i) => (
-              <div key={r.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
-                className="opacity-0 rounded-2xl bg-white border border-border p-6 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all">
-                <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-ink text-white">
-                  <r.icon className="h-6 w-6" />
-                </div>
-                <h4 className="mt-4 font-extrabold brand-navy">{r.title}</h4>
-                <p className="mt-2 text-sm brand-navy opacity-80 leading-relaxed">{r.text}</p>
               </div>
             ))}
           </div>
@@ -487,80 +411,48 @@ export default function App() {
       {/* SERVICES */}
       <section id="services" className="pdf-corners py-20 md:py-28 bg-[#f4f4f4]">
         <div className="mx-auto max-w-6xl px-5">
-          <div className="text-center max-w-2xl mx-auto" data-reveal>
-            <p className="text-sm font-bold tracking-[0.2em] brand-royal">OUR SERVICES</p>
-            <h2 className="mt-3 font-display text-4xl md:text-5xl">Unleash the ultimate defense against pests</h2>
-          </div>
-          <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <h2 className="text-center font-display text-4xl md:text-5xl brand-navy" data-reveal>Our Services</h2>
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {SERVICES.map((s, i) => (
               <div key={s.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
-                className="opacity-0 rounded-2xl p-7 flex flex-col bg-white border border-[#d5dbe5] hover:border-[#18488f] hover:shadow-lg hover:-translate-y-1 transition-all">
-                <div className="grid h-14 w-14 place-items-center rounded-2xl gradient-band text-white shadow">
+                className="opacity-0 rounded-2xl p-7 bg-white border border-border">
+                <div className="grid h-14 w-14 place-items-center rounded-full bg-brand-ink text-white">
                   <s.icon className="h-7 w-7" />
                 </div>
-                <h3 className="mt-5 font-extrabold">{s.title}</h3>
-                <p className="mt-2 text-sm text-[#162b57]/75">{s.text}</p>
+                <h3 className="mt-5 font-extrabold brand-navy">{s.title}</h3>
+                <p className="mt-2 text-sm brand-navy opacity-80 leading-relaxed text-justify">{s.text}</p>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="mt-20 grid lg:grid-cols-[0.8fr_1.2fr] gap-10 items-center">
-            <img src={weDoImg} alt="HT-Power technician treating a floor drain" loading="lazy" data-reveal
-              className="opacity-0 w-full h-80 lg:h-[34rem] object-cover rounded-2xl shadow-lg" />
-            <div>
-              <h3 className="font-display text-3xl md:text-4xl brand-navy" data-reveal>At <span className="bg-brand-ink text-white px-3 py-1">HT-POWER</span> … we do</h3>
-              <p className="mt-4 brand-navy" data-reveal>We offer a wide range of professional pest control services using science-based methods and modern equipment.</p>
-              <ul className="mt-6 space-y-3">
-                {WE_DO.map((w, i) => (
-                  <li key={w.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
-                    className="opacity-0 flex gap-4 rounded-2xl bg-white border border-border p-4">
-                    <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-ink text-white">
-                      <w.icon className="h-5 w-5" />
-                    </div>
-                    <p className="text-sm brand-navy leading-relaxed"><strong>{w.title}</strong> – {w.text}</p>
-                  </li>
+      {/* AT HT-POWER … — PDF pages 5–6: we serve / provide / do / deal */}
+      <section className="pdf-corners py-20 md:py-28 bg-[#e9ecf1]">
+        <div className="mx-auto max-w-6xl px-5">
+          <h2 className="text-center font-display text-4xl md:text-5xl brand-navy" data-reveal>
+            AT <span className="bg-brand-ink text-white px-3 py-1">HT-POWER</span> …
+          </h2>
+          {[AT_HTPOWER.slice(0, 2), AT_HTPOWER.slice(2)].map((pair, pi) => (
+            <div key={pi} className={`mt-12 grid gap-8 items-start ${pi === 0 ? "lg:grid-cols-[1fr_1.2fr]" : "lg:grid-cols-[1.2fr_1fr]"}`}>
+              <img src={pi === 0 ? weServeImg : weDoImg} loading="lazy" data-reveal
+                alt={pi === 0 ? "HT-Power technician fogging the BYD showroom lounge" : "HT-Power technician treating a floor drain"}
+                className={`opacity-0 w-full h-64 sm:h-80 lg:h-full max-h-[34rem] object-cover rounded-2xl ${pi === 1 ? "lg:order-2" : ""}`} />
+              <div className="space-y-8">
+                {pair.map((block) => (
+                  <div key={block.title} data-reveal className="opacity-0 brand-navy">
+                    <h3 className="text-xl font-extrabold">{block.title}</h3>
+                    <p className="mt-2 leading-relaxed">{block.intro}</p>
+                    <ul className="mt-3 list-disc pl-5 space-y-1.5 leading-relaxed">
+                      {block.items.map(([term, text]) => (
+                        <li key={term}><strong>{term}</strong> – {text}</li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
-          </div>
-
-          <div className="mt-20" data-reveal>
-            <h3 className="font-display text-3xl md:text-4xl brand-navy">We deal</h3>
-            <p className="mt-4 brand-navy">We are equipped to address a wide variety of pests with expertise and care.</p>
-          </div>
-          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {PESTS.map((p, i) => (
-              <div key={p.name} data-reveal style={{ animationDelay: `${i * 60}ms` }}
-                className="opacity-0 rounded-2xl gradient-pdf p-5 text-white shadow-md">
-                <h4 className="font-extrabold leading-tight text-shadow-soft">{p.name}</h4>
-                <p className="mt-1 text-sm leading-relaxed text-shadow-soft">{p.text}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-20 relative rounded-2xl overflow-hidden" data-reveal>
-            <img src={weServeImg} alt="HT-Power technician fogging the BYD showroom lounge" loading="lazy"
-              className="w-full h-64 md:h-80 object-cover" />
-            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#f4f4f4] to-transparent" />
-          </div>
-          <div className="mt-6" data-reveal>
-            <h3 className="font-display text-3xl md:text-4xl brand-navy">At <span className="bg-brand-ink text-white px-3 py-1">HT-POWER</span> … we serve</h3>
-            <p className="mt-4 brand-navy">We cater to a diverse range of clients, ensuring that every property — big or small — gets the protection it deserves.</p>
-          </div>
-          <div className="mt-8 grid sm:grid-cols-3 gap-6">
-            {CATEGORIES.map((c, i) => (
-              <div key={c.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
-                className="opacity-0 flex items-start gap-4 rounded-2xl gradient-card border border-[#d5dbe5] p-6">
-                <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-brand-navy text-white shadow">
-                  <c.icon className="h-7 w-7" />
-                </div>
-                <div>
-                  <h4 className="font-extrabold leading-tight">{c.title}</h4>
-                  <p className="text-sm text-[#162b57]/75">{c.text}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </section>
 
@@ -568,9 +460,7 @@ export default function App() {
       <section id="projects" className="py-20 md:py-28 bg-white">
         <div className="mx-auto max-w-6xl px-5">
           <div className="text-center max-w-2xl mx-auto" data-reveal>
-            <p className="text-sm font-bold tracking-[0.2em] brand-royal">OUR WORK</p>
-            <h2 className="mt-3 font-display text-4xl md:text-5xl">Trusted by leading establishments</h2>
-            <p className="mt-4 text-[#162b57]/70">Real projects, done with FDA-approved products and no hidden charges.</p>
+            <h2 className="font-display text-4xl md:text-5xl brand-navy">Trusted by leading establishments</h2>
           </div>
           <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {PROJECTS.map((p, i) => (
@@ -593,15 +483,14 @@ export default function App() {
             ))}
           </div>
 
-          {/* CLIENT LIST */}
-          {/* Client list styled like the PDF's navy CLIENTS panels */}
+          {/* CLIENT LIST — navy panels like the PDF's CLIENTS pages */}
           <div className="mt-20" data-reveal>
             <h3 className="font-display text-4xl md:text-5xl text-center brand-navy">CLIENTS</h3>
             <div className="mt-8 grid md:grid-cols-[1.6fr_1fr] gap-6">
               {[CLIENTS.slice(0, 1), CLIENTS.slice(1)].map((col, ci) => (
                 <div key={ci} className="space-y-6">
                   {col.map((c) => (
-                    <div key={c.group} className="rounded-xl bg-brand-ink text-white p-6 ring-4 ring-white shadow-lg">
+                    <div key={c.group} className="rounded-xl bg-brand-ink text-white p-6">
                       <p className="font-extrabold uppercase">{c.group}</p>
                       <ul className="mt-3 list-disc pl-5 space-y-1 text-sm uppercase">
                         {c.names.map((n) => <li key={n}>{n}</li>)}
@@ -659,28 +548,24 @@ export default function App() {
       </Dialog>
 
       {/* TESTIMONIALS */}
-      <section id="reviews" className="py-20 md:py-28 gradient-band text-white relative overflow-hidden">
-        <SprayerMotif className="absolute -top-6 right-0 w-[500px] opacity-15" />
-        <div className="relative mx-auto max-w-5xl px-5">
-          <div className="text-center max-w-2xl mx-auto" data-reveal>
-            <p className="text-sm font-bold tracking-[0.2em] text-[#8ecce2]">CLIENT REVIEWS</p>
-            <h2 className="mt-3 font-display text-4xl md:text-5xl">What our clients say</h2>
-          </div>
-          <div className="mt-14 grid sm:grid-cols-2 gap-6">
+      <section id="reviews" className="py-20 md:py-28 bg-brand-ink text-white">
+        <div className="mx-auto max-w-5xl px-5">
+          <h2 className="text-center font-display text-4xl md:text-5xl" data-reveal>What our clients say</h2>
+          <div className="mt-12 grid sm:grid-cols-2 gap-6">
             {TESTIMONIALS.map((t) => (
-              <div key={t.name} data-reveal className="opacity-0 rounded-2xl bg-white/10 backdrop-blur border border-white/15 p-7">
-                <Quote className="h-8 w-8 text-[#8ecce2]" />
+              <div key={t.name} data-reveal className="opacity-0 rounded-2xl bg-white brand-navy p-7">
+                <Quote className="h-8 w-8 brand-royal" />
                 <div className="mt-3 flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-[#f2c200] text-[#f2c200]" />)}
+                  {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-[#8ecce2] text-[#8ecce2]" />)}
                 </div>
                 <p className="mt-3 text-lg font-semibold">"{t.text}"</p>
                 <div className="mt-5 flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-full bg-white text-[#162b57] font-black">
+                  <span className="grid h-10 w-10 place-items-center rounded-full bg-brand-ink text-white font-black">
                     {t.name.split(" ").map((n) => n[0]).join("")}
                   </span>
                   <div>
                     <div className="font-bold">{t.name}</div>
-                    <div className="text-xs text-[#8ecce2]">Verified client · {t.date}</div>
+                    <div className="text-xs opacity-70">Verified client · {t.date}</div>
                   </div>
                 </div>
               </div>
@@ -694,13 +579,13 @@ export default function App() {
         <div className="mx-auto max-w-6xl px-5">
           <div className="text-center max-w-3xl mx-auto" data-reveal>
             <h2 className="font-display text-3xl md:text-4xl brand-navy">HT-Power Pest Control helps you select the most effective treatment tailored to your unique needs and budget.</h2>
-            <p className="mt-4 text-[#162b57]/70">
+            <p className="mt-4 brand-navy opacity-80">
               Recognizing that every situation is unique, we implement the most effective treatment methods
               and management strategies for each condition.
             </p>
           </div>
           <div className="mt-14 grid md:grid-cols-2 gap-8 items-start">
-            <div data-reveal className="opacity-0 rounded-2xl gradient-card border border-border p-7">
+            <div data-reveal className="opacity-0 rounded-2xl bg-white border border-border p-7">
               <h3 className="font-extrabold text-lg brand-navy">What to expect</h3>
               <p className="mt-2 text-sm brand-navy opacity-75 leading-relaxed">
                 To ensure we meet your needs precisely, we require an on-site inspection before providing a final
@@ -724,7 +609,7 @@ export default function App() {
               </p>
               <div className="mt-5 grid grid-cols-2 gap-3">
                 {SCHEDULES.map((s) => (
-                  <span key={s} className="rounded-xl gradient-card px-4 py-3 text-center text-sm font-bold brand-royal">{s}</span>
+                  <span key={s} className="rounded-xl bg-[#e9ecf1] px-4 py-3 text-center text-sm font-bold brand-navy">{s}</span>
                 ))}
               </div>
               {/* Navy offset frame like the PDF: same size as the photo, shifted up-left, so it never overflows */}
@@ -742,8 +627,7 @@ export default function App() {
       <section id="faq" className="py-20 md:py-28 bg-white">
         <div className="mx-auto max-w-3xl px-5">
           <div className="text-center max-w-2xl mx-auto" data-reveal>
-            <p className="text-sm font-bold tracking-[0.2em] brand-royal">FAQ</p>
-            <h2 className="mt-3 font-display text-4xl md:text-5xl">Frequently asked questions</h2>
+            <h2 className="font-display text-4xl md:text-5xl brand-navy">Frequently asked questions</h2>
           </div>
           <Accordion type="single" collapsible className="mt-12" data-reveal>
             {FAQS.map((f) => (
@@ -772,7 +656,7 @@ export default function App() {
               <img src={logoImg} alt="HT-Power Pest Control logo" className="h-9 w-9 rounded-full object-cover" />
               <span className="font-extrabold text-white text-lg">HT-POWER</span>
             </div>
-            <p className="mt-4 text-sm text-white/60 max-w-xs">HT-Power — Powered by Trust. Driven by Quality. Committed to Protection.</p>
+            <p className="mt-4 text-sm text-white/60 max-w-xs">Your trusted partner in power solutions and pest control services.</p>
           </div>
           <div>
             <h4 className="font-bold text-white mb-3">Quick Links</h4>
@@ -853,7 +737,7 @@ function ContactForm() {
   };
 
   return (
-    <div className="rounded-[2rem] border border-[#d5dbe5] gradient-card p-8 md:p-10" data-reveal>
+    <div className="rounded-[2rem] border border-[#d5dbe5] bg-[#e9ecf1] p-8 md:p-10" data-reveal>
       <h3 className="text-2xl font-black">Request a free quote</h3>
       <p className="mt-2 text-sm text-[#162b57]/80">Fill in your details and we'll get back to you shortly.</p>
       {status === "sent" ? (
@@ -886,7 +770,7 @@ function ContactForm() {
             <label htmlFor="establishmentType" className="text-sm font-semibold text-[#162b57]">Establishment Type</label>
             <Select value={form.establishmentType} onValueChange={(v) => setForm((f) => ({ ...f, establishmentType: v }))}>
               <SelectTrigger id="establishmentType" aria-invalid={!!errs.establishmentType}
-                className={`mt-1.5 h-auto w-full rounded-xl border bg-white px-4 py-3 text-sm focus:ring-2 focus:ring-[#3365a2]/20 ${errs.establishmentType ? "border-red-400 focus:border-red-500" : "border-[#d5dbe5] focus:border-[#3365a2]"}`}>
+                className={`mt-1.5 h-auto w-full rounded-xl border bg-white px-4 py-3 text-sm focus:ring-2 focus:ring-[#18488f]/20 ${errs.establishmentType ? "border-red-400 focus:border-red-500" : "border-[#d5dbe5] focus:border-[#18488f]"}`}>
                 <SelectValue placeholder="Select establishment type" />
               </SelectTrigger>
               <SelectContent>
@@ -902,7 +786,7 @@ function ContactForm() {
             <label htmlFor="message" className="text-sm font-semibold text-[#162b57]">Message</label>
             <textarea id="message" value={form.message} onChange={set("message")} rows={4} maxLength={2000} placeholder="Tell us about your pest concern..."
               aria-invalid={!!errs.message}
-              className={`mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#3365a2]/20 resize-none ${errs.message ? "border-red-400 focus:border-red-500" : "border-[#d5dbe5] focus:border-[#3365a2]"}`} />
+              className={`mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#18488f]/20 resize-none ${errs.message ? "border-red-400 focus:border-red-500" : "border-[#d5dbe5] focus:border-[#18488f]"}`} />
             {errs.message && <p className="mt-1 text-xs font-medium text-red-600">{errs.message}</p>}
           </div>
           {status === "error" && (
@@ -926,7 +810,7 @@ function Field({ label, error, ...props }: { label: string; error?: string } & R
     <div>
       <label htmlFor={props.id} className="text-sm font-semibold text-[#162b57]">{label}</label>
       <input {...props} aria-invalid={!!error}
-        className={`mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#3365a2]/20 ${error ? "border-red-400 focus:border-red-500" : "border-[#d5dbe5] focus:border-[#3365a2]"}`} />
+        className={`mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#18488f]/20 ${error ? "border-red-400 focus:border-red-500" : "border-[#d5dbe5] focus:border-[#18488f]"}`} />
       {error && <p className="mt-1 text-xs font-medium text-red-600">{error}</p>}
     </div>
   );
