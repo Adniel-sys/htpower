@@ -690,7 +690,7 @@ export default function App() {
       </section>
 
       {/* PRICING / HOW QUOTES WORK */}
-      <section className="pdf-corners py-20 md:py-28 bg-[#e9ecf1]">
+      <section id="pricing" className="pdf-corners py-20 md:py-28 bg-[#e9ecf1]">
         <div className="mx-auto max-w-6xl px-5">
           <div className="text-center max-w-3xl mx-auto" data-reveal>
             <h2 className="font-display text-3xl md:text-4xl brand-navy">HT-Power Pest Control helps you select the most effective treatment tailored to your unique needs and budget.</h2>
@@ -727,10 +727,11 @@ export default function App() {
                   <span key={s} className="rounded-xl gradient-card px-4 py-3 text-center text-sm font-bold brand-royal">{s}</span>
                 ))}
               </div>
-              <div className="mt-6 relative pl-3 pt-3">
-                <div className="absolute left-0 top-0 h-[85%] w-[85%] bg-brand-ink" aria-hidden="true" />
+              {/* Navy offset frame like the PDF: same size as the photo, shifted up-left, so it never overflows */}
+              <div className="relative mt-9 ml-3">
+                <div className="absolute inset-0 -translate-x-3 -translate-y-3 bg-brand-ink rounded-lg" aria-hidden="true" />
                 <img src={schedulesImg} alt="HT-Power technician setting up a rodent bait station" loading="lazy"
-                  className="relative w-full h-64 object-cover" />
+                  className="relative block w-full aspect-[4/3] object-cover object-center rounded-lg" />
               </div>
             </div>
           </div>
