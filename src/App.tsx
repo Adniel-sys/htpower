@@ -65,11 +65,11 @@ const PROJECTS = [
   { imgs: [bydPt1Img, bydPt2Img, bydPt3Img, bydImg], name: "BYD – Pasong Tamo Branch", loc: "Makati City", type: "General Pest Control" },
   { imgs: [denza1Img, denza2Img, denza3Img], name: "DENZA – Makati Branch", loc: "Makati City", type: "General Pest Control" },
   { imgs: [topRealty1Img, topRealty2Img], name: "Top Realty88 Corporation", loc: "Metro Manila", type: "General Pest Control" },
-  { imgs: [chizmozzaImg], name: "Chizmozza", loc: "SM North, EDSA", type: "Termite Control Treatment" },
+  { imgs: [chizmozzaImg], name: "Chizmozza PH – SM North Branch", loc: "SM North EDSA, Quezon City", type: "Termite Control Treatment" },
   { imgs: [farinasImg], name: "Fariñas Ilocos Empanada", loc: "Bagong Ilog, Pasig City", type: "General Pest Control" },
-  { imgs: [firstbaronImg], name: "First Baron Residences", loc: "Metro Manila", type: "General Pest Control" },
+  { imgs: [firstbaronImg], name: "First Baron Tower Residences", loc: "Metro Manila", type: "General Pest Control" },
   { imgs: [parkadsImg, parkads2Img], name: "Park Ads Inc.", loc: "Metro Manila", type: "General Pest Control" },
-  { imgs: [moanaImg], name: "Moana Cafe & Eatery", loc: "Metro Manila", type: "General Pest Control" },
+  { imgs: [moanaImg], name: "Moana Café and Eatery", loc: "Metro Manila", type: "General Pest Control" },
 ];
 
 // Wording below is taken verbatim from the client's 2026 company profile PDF and FAQ document.
