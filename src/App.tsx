@@ -274,6 +274,11 @@ export default function App() {
 
       {/* HERO */}
       <section id="home" className="relative min-h-[620px] flex items-center overflow-hidden bg-brand-ink pt-20">
+        {/* PDF fogger photo on the right, fading into the navy so the headline stays on solid color */}
+        <img src={missionImg} alt="" aria-hidden="true" loading="eager"
+          className="absolute inset-y-0 right-0 h-full w-full lg:w-[55%] object-cover opacity-30 lg:opacity-100" />
+        <div className="absolute inset-0 bg-brand-ink/80 lg:bg-transparent lg:bg-gradient-to-r lg:from-[#162b57] lg:from-45% lg:via-[#162b57]/70 lg:via-60% lg:to-transparent" aria-hidden="true" />
+        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#162b57] to-transparent" aria-hidden="true" />
         <div className="relative mx-auto max-w-6xl px-5 w-full">
           <h1 className="font-display">
             <span className="block text-2xl md:text-4xl brand-sky">WHY</span>
