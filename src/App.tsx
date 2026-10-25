@@ -3,7 +3,7 @@ import {
   Shield, Sprout, Users, Award, Target, HeartHandshake,
   Mail, Phone, Menu, X, CheckCircle2, Bug, Home, Building2,
   Send, MapPin, ArrowRight, Star, Quote, BadgeCheck,
-  Search, ClipboardCheck, Landmark, FileCheck, FlaskConical, ChevronLeft,
+  ClipboardCheck, Landmark, FileCheck, FlaskConical, ChevronLeft,
   ChevronRight, CalendarClock, Droplets, Shovel, Images, Factory, Eye
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -54,7 +54,7 @@ function Facebook({ className = "" }: { className?: string }) {
 }
 
 const PROJECTS = [
-  { imgs: [bydBgcImg], name: "BYD – BGC Branch", loc: "Taguig City", type: "General Pest Control" },
+  { imgs: [bydBgcImg], name: "BYD – Taguig", loc: "BGC, Taguig City", type: "General Pest Control" },
   { imgs: [bydPt1Img, bydPt2Img, bydPt3Img, bydImg], name: "BYD – Pasong Tamo Branch", loc: "Makati City", type: "General Pest Control" },
   { imgs: [denza1Img, denza2Img, denza3Img], name: "DENZA – Makati Branch", loc: "Makati City", type: "General Pest Control" },
   { imgs: [topRealty1Img, topRealty2Img], name: "Top Realty88 Corporation", loc: "Metro Manila", type: "General Pest Control" },
@@ -65,49 +65,47 @@ const PROJECTS = [
   { imgs: [moanaImg], name: "Moana Cafe & Eatery", loc: "Metro Manila", type: "General Pest Control" },
 ];
 
-// From the 2026 company profile. Residential clients are private individuals, so they're not listed.
+// Wording below is taken verbatim from the client's 2026 company profile PDF and FAQ document.
+// Residential clients are private individuals, so they're not listed by name.
 const CLIENTS = [
   { group: "Commercial", names: [
-    "BYD – Taguig", "BYD – Pasong Tamo", "DENZA – Makati", "Park Ads Inc.",
-    "Philippine Spring Water Resources (Nature's Spring)", "Top Realty88 Corporation",
-    "Harmonic System Inc.", "Steven Realty & Trade Dev't Corp.", "Joint Endeavor Group Corp.",
-    "Cloud Ecommerce Corporation", "Xitrix Computer Corporation", "CameraHaus",
-    "Dreamskin Aesthetic Depot", "Dreamscapade Travel & Tours", "Unsang Business Support Services",
-    "E-Prints", "Auntie's Empanada", "Guallar Water Refilling Station", "Purecryst Water Refilling Station",
+    "Guallar Water Refilling Station", "Auntie's Empanada", "E-Prints", "Purecryst Water Refilling Station",
+    "Unsang Business Support Services", "BYD - Taguig", "BYD - Pasong Tamo", "DENZA - Makati Branch",
+    "Harmonic System Inc.", "Park Ads Inc.", "Philippine Spring Water Resources, Inc. (Nature's Spring)",
+    "Top Realty88 Corporation", "Steven Realty and Trade Dev't Corp", "Joint Endeavor Group Corp.",
+    "Cloud Ecommerce Corporation", "Dreamskin Aesthetic Depot Company", "Dreamscapade Travel & Tours Co.",
+    "Xitrix Computer Corporation", "Camerahaus",
   ] },
-  { group: "Restaurants", names: ["Fariñas Ilocos Empanada", "Chizmozza PH (SM North)", "Moana Café & Eatery", "Why Chicken (Pasig)"] },
+  { group: "Restaurant", names: ["Farinas Ilocos Empanada", "Chizmozza PH (SM North Branch)", "Moana Café and Eatery", "Why Chicken Pasig Branch"] },
   { group: "Condominium", names: ["First Baron Tower Residences", "The Baron's Place"] },
   { group: "Industrial", names: ["Ian Spices Trading"] },
 ];
 
 const CREDENTIALS = [
-  { icon: Landmark, title: "BIR Registered", text: "A legally recognized business, compliant with all tax and government requirements." },
-  { icon: FileCheck, title: "DTI Registered", text: "Officially registered with the Department of Trade and Industry." },
-  { icon: Users, title: "PCAP Member", text: "Proud member of the Pest Control Association of the Philippines." },
-  { icon: FlaskConical, title: "FDA-Approved Products", text: "Every material we use is FDA-approved. Our own FDA application is underway." },
+  { icon: Landmark, title: "BIR Registered", text: "HT-Power operates as a legally recognized business under the Bureau of Internal Revenue, ensuring compliance with all tax regulations and government requirements." },
+  { icon: FileCheck, title: "DTI Registered", text: "We are officially registered with the Department of Trade and Industry, affirming our legitimacy as a business and our commitment to ethical operations." },
+  { icon: Users, title: "PCAP", text: "HT-POWER proudly stands as a member of Pest Control Association of the Philippines (PCAP)." },
+  { icon: FlaskConical, title: "FDA-Approved Materials", text: "Our application with the Food and Drug Administration is currently underway. Even as we await final FDA registration, we ensure that all materials we use are already FDA-approved, prioritizing the safety, quality, and reliability of our offerings." },
 ];
 
 const FAQS = [
   { q: "How long does a pest control treatment take?",
-    a: <p>A typical treatment takes at least ninety minutes, though the duration varies with the size of the house or property.</p> },
-  { q: "What should I prepare before a treatment?",
-    a: <>
-      <p>Cover food items or store them in a large bag, such as a trash bag. Water containers don't need covering since the chemicals we use can't penetrate them, but you can cover them with plastic for added caution — the same goes for dispenser nozzles.</p>
-      <p className="mt-2">Clothing doesn't need to be packed unless the flies being controlled are hiding in it. Wash sofa covers, linens, and pillowcases before reuse. During spraying or misting, no one except the person assisting should stay inside the treated area.</p>
-    </> },
+    a: <p>Typically, pest control treatment lasts for a minimum of ninety minutes, although the duration may vary depending on the size of the house or property.</p> },
+  { q: "What to prepare prior to pest control treatment?",
+    a: <p>Food items can be shielded by covering them or storing them in a large bag, such as a trash bag. Water containers do not require covering since the chemicals used cannot penetrate them, but for added caution, they can be covered with plastic. Similarly, dispenser nozzles can be enclosed with plastic. Clothing does not necessarily need to be packed in plastic unless flies to be controlled are hiding within them. Sofa covers, linens, and pillowcases should be washed before reuse. During spraying or misting procedures, no one except the individual assisting in the process should remain inside the treated area.</p> },
   { q: "When is it safe to enter a treated area?",
-    a: <p>For optimal safety, wait 2–3 hours after the treatment is completed before entering the treated area.</p> },
-  { q: "How does a pest control inspection work?",
-    a: <p>Our specialists reach out to learn more about your pest concerns, then schedule a site visit at a convenient time. On-site, we inspect all relevant areas to assess the extent of the infestation, walk you through our findings, and recommend the most suitable treatment with a precise quote. We'll also share prevention advice on proofing and hygiene. <strong>The inspection and quote are completely free.</strong></p> },
-  { q: "How much does pest control cost?",
+    a: <p>For optimal safety, it is advisable to wait for 2-3 hours after the completion of the pest control treatment before entering the treated area.</p> },
+  { q: "How does Pest Control Inspection work?",
+    a: <p>Our skilled pest control specialists will reach out to the client to delve deeper into their pest-related concerns. Subsequently, they will coordinate with the client to establish a convenient time and date for a site visit, during which they will thoroughly assess the extent of the pest infestation by inspecting all relevant areas of the premises. Our experienced surveyor will then discuss the findings with the client, proposing the most suitable and effective treatment to address the pest problem. A precise quote for the recommended treatment will be provided to the customer. Additionally, our experts will share preventive advice, including measures for proofing and maintaining hygiene. It's important to note that our professional pest control inspection and quote are complimentary, offered free of charge.</p> },
+  { q: "How Much Does Pest Control Cost?",
     a: <>
-      <p>Every quote is tailored after inspection. The main factors are:</p>
+      <p>Several factors contribute to the total expense associated with addressing a pest infestation concern:</p>
       <ul className="mt-2 space-y-1.5 list-disc pl-5">
-        <li><strong>Pest type</strong> — each pest needs its own solution; flies are treated differently from rodents.</li>
-        <li><strong>Infestation severity</strong> — heavier infestations need more frequent treatment and monitoring.</li>
-        <li><strong>Treatment method</strong> — preventive programs are priced differently from corrective treatments.</li>
-        <li><strong>Property size</strong> — larger areas take more time to treat thoroughly.</li>
-        <li><strong>Number of treatments</strong> — some pests need multiple visits for effective control.</li>
+        <li><strong>Pest Type</strong> - The specific pest inhabiting a business premise or property influences the overall cost of treatment. For instance, eliminating flies differs in cost from addressing a rodent issue due to the unique solutions required for each pest.</li>
+        <li><strong>Infestation Severity</strong> - The degree and scope of infestation within the business impact the pricing of pest control services. For example, controlling a heavily infested area with flies demands more frequent treatment and monitoring to ensure the effectiveness of the customized program, tailored to the business's needs, compared to a lightly infested area.</li>
+        <li><strong>Treatment Method</strong> - The chosen treatment method to eliminate a pest problem correlates with the total costs of the pest control service. Pricing for preventive pest control differs from that of corrective, reactive treatments.</li>
+        <li><strong>Property/Area Size</strong> - The dimensions of a property significantly influence the calculation of pest control service costs. Larger properties require more time for successful implementation of solutions and pest treatment.</li>
+        <li><strong>Number of Treatments</strong> - Certain pests may necessitate multiple treatments for effective control, which also impacts the pricing structure of the pest control service.</li>
       </ul>
     </> },
 ];
@@ -149,41 +147,60 @@ const NAV = [
   { label: "Contact", id: "contact" },
 ];
 
-const REASONS = [
-  { icon: Shield, title: "Comprehensive Solutions", text: "Tailored pest control strategies addressing a wide range of pest issues." },
-  { icon: Target, title: "Prevention-Focused Approach", text: "We stop the problem before it starts and help prevent future infestations." },
-  { icon: Award, title: "Expertise & Experience", text: "Skilled professionals with extensive knowledge in pest management." },
-  { icon: Sprout, title: "Eco-Friendly Solutions", text: "Products crafted to effectively combat pests while staying environmentally friendly." },
-  { icon: HeartHandshake, title: "Customer-Centric", text: "Your satisfaction is our top priority — start to finish." },
-  { icon: Users, title: "Trusted Partners", text: "We go beyond being suppliers to become your partner in pest control excellence." },
+const CORE_VALUES = [
+  { icon: Target, title: "Precision", text: "Meticulously analyzing pest infestations and applying targeted treatments, we ensure efficient and effective pest control outcomes for our clients to deliver results with accuracy and attention to detail." },
+  { icon: Award, title: "Excellence", text: "Upholding the highest ethical standards, we prioritize honesty, transparency, and accountability in all our interactions. Our commitment to integrity builds trust with clients, team members, and the communities we serve." },
+  { icon: Shield, title: "Safety First", text: "The safety of our clients, team members, and the environment is our top priority. We adhere to stringent safety protocols, ensuring that our pest control methods are effective while minimizing any potential risks to health and well-being." },
+  { icon: Users, title: "Team Collaboration", text: "We value and respect the contributions of every team member. By fostering a collaborative and inclusive work environment, we leverage the diverse skills and experiences of our team to achieve collective success." },
+];
+
+const WE_PROVIDE = [
+  { icon: HeartHandshake, title: "Preservation of Life", text: "By controlling pests that carry harmful diseases, we help protect the well-being of you and your loved ones." },
+  { icon: Home, title: "Protection of Health and Properties", text: "Our methods are designed to safeguard both human health and the structural integrity of your space." },
+  { icon: ClipboardCheck, title: "Personalized Treatment", text: "We don't believe in one-size-fits-all solutions. Every service is tailored to your specific pest problem." },
+  { icon: Sprout, title: "Peace of Mind", text: "With HT-Power on the job, you can rest easy knowing your environment is in capable hands." },
 ];
 
 const PHONE2 = "0919-585-2528";
 const FB_URL = "https://fb.com/HTPOWERPestControl";
 
 const SERVICES = [
-  { icon: Bug, title: "General Pest Control", text: "Targeted control for ants, cockroaches, mosquitoes, and common pests." },
-  { icon: Home, title: "Termite Control Treatment", text: "Soil and wood treatment to eliminate and prevent termite damage." },
-  { icon: Shield, title: "Rodent Control Treatment", text: "Baiting, trapping, and exclusion to keep rodents out for good." },
-  { icon: Droplets, title: "Reticulation System", text: "Treatment delivered through a network of pipes for even, long-lasting indoor and outdoor coverage." },
-  { icon: Shovel, title: "Soil Poisoning", text: "Pre- and post-construction soil treatment that stops termites at the root level." },
-  { icon: BadgeCheck, title: "Certificate & Service Report", text: "Sanitary permit documentation for compliance and inspections." },
+  { icon: Bug, title: "General Pest Control", text: "Our General Pest Control service is designed to address a wide range of common pests, including ants, cockroaches, spiders, and more. Our trained technicians use state-of-the-art equipment and environmentally friendly products to ensure effective pest eradication while maintaining the safety of your home or business." },
+  { icon: Home, title: "Termite Control", text: "HT-Power specializes in advanced Termite Control Treatment to protect your property from the destructive impact of termites. Our experts conduct thorough inspections to identify termite activity and implement targeted treatment strategies, such as soil treatment, baiting systems, and wood protection." },
+  { icon: Shield, title: "Rodent Control", text: "Our Rodent Control Treatment offers effective solutions to eliminate mice, rats, and other rodents from your premises. We employ a combination of exclusion techniques, trapping, and rodenticides, tailored to the severity of the infestation and specific environmental conditions." },
+  { icon: Droplets, title: "Reticulation System", text: "Our reticulation system delivers pest control treatments through a network of pipes or tubing, ensuring even and precise coverage across your property. This method improves effectiveness, reduces chemical waste, saves time, and provides consistent, long-lasting protection for both indoor and outdoor areas." },
 ];
 
-const PESTS = ["Termites", "Cockroaches", "Rats & Mice", "Mosquitoes & Flies", "Ants & Bugs"];
+const WE_DO = [
+  { icon: Shovel, title: "Soil Poisoning", text: "Pre- and post-construction soil treatment to prevent termite infestations at the root level." },
+  { icon: Bug, title: "Pest Extermination", text: "Fast and effective elimination of existing pest populations in homes or businesses." },
+  { icon: Shield, title: "Pest Control and Prevention", text: "Long-term, proactive solutions to keep infestations from returning." },
+  { icon: Sprout, title: "Termite Baiting System", text: "Environmentally responsible termite control using advanced baiting technology." },
+  { icon: ClipboardCheck, title: "Pest Management", text: "Integrated Pest Management (IPM) programs tailored to your environment and industry needs." },
+];
+
+const PESTS = [
+  { name: "Termites", text: "Silent destroyers of wood and structures; we stop them before they cause major damage." },
+  { name: "Roaches", text: "Common carriers of bacteria; we eliminate them efficiently." },
+  { name: "Rats", text: "Known for spreading diseases and property damage; we offer complete rodent control solutions." },
+  { name: "Mosquitoes & Flies", text: "Vectors of dangerous diseases like dengue and malaria; we help reduce and prevent outbreaks." },
+  { name: "Ants and Bugs", text: "From nuisance ants to creeping bugs, we handle them all." },
+];
 
 const SCHEDULES = ["One-Time", "Monthly", "Bi-Monthly", "Quarterly"];
 
 const CATEGORIES = [
-  { icon: Building2, title: "Commercial Businesses", text: "Offices, restaurants, dealerships, and retail." },
-  { icon: Factory, title: "Industrial & Warehouses", text: "Factories, warehouses, and production sites." },
-  { icon: Home, title: "Condo & Residential", text: "Homes, condos, and estates." },
+  { icon: Home, title: "Residential", text: "Safeguarding homes and families from unwanted pests and health risks." },
+  { icon: Building2, title: "Commercial", text: "Supporting businesses by maintaining clean and pest-free environments that meet safety standards." },
+  { icon: Factory, title: "Industrial", text: "Providing large-scale pest control solutions for factories, warehouses, and production sites with precision and compliance." },
 ];
 
-const PRICING_STEPS = [
-  { icon: Search, title: "Free Inspection", text: "We assess your property and pest concerns at no cost, with no obligation." },
-  { icon: ClipboardCheck, title: "Custom Treatment Plan", text: "We design a plan sized to your property and the pests you're dealing with." },
-  { icon: BadgeCheck, title: "Transparent Quote", text: "You get a clear, upfront price before any work begins — no hidden fees." },
+const WHAT_TO_EXPECT = [
+  "Free site inspection within serviceable areas",
+  "Customized and transparent quotation after inspection",
+  "Professional assessment for power and pest control needs",
+  "Safe and effective methods using FDA-approved products",
+  "No hidden charges — just honest, reliable service",
 ];
 
 function useReveal() {
@@ -304,7 +321,7 @@ export default function App() {
         <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(22,38,94,0.92)_0%,rgba(41,82,204,0.55)_60%,rgba(41,82,204,0.2)_100%)]" />
         <div className="relative mx-auto max-w-6xl px-5 w-full">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/40 px-4 py-1.5 text-xs font-semibold text-white">
-            <Star className="h-3.5 w-3.5 fill-white text-white" /> BIR & DTI REGISTERED · TRUSTED BY BUSINESSES
+            <Star className="h-3.5 w-3.5 fill-white text-white" /> BIR & DTI REGISTERED · PCAP MEMBER
           </span>
           <h1 className="mt-6 font-display text-shadow-soft">
             <span className="block text-2xl md:text-4xl text-[#a9bef0]">WHY</span>
@@ -314,8 +331,8 @@ export default function App() {
             </span>
           </h1>
           <p className="mt-6 max-w-xl text-[#cfd9f7] md:text-lg">
-            Unleash the ultimate defense against pests — general, termite, and rodent control
-            for homes and businesses across Metro Manila.
+            We believe great service doesn't have to come with a big price tag — just real people,
+            real work, and real results.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Button onClick={() => scrollTo("contact")}
@@ -339,14 +356,17 @@ export default function App() {
               About Our<br />Company
             </h2>
             <p className="mt-5 max-w-[60ch] text-[#0d2f5e]/80 md:text-lg leading-relaxed">
-              Founded in 2024 by husband and wife John Paul Hapa and Sweet Telic-Hapa, HT-Power is a
-              proudly Filipino-owned company built on a family legacy. It honors John Paul's late father,
-              Robert Hapa, whose Robert General Pest Control Services has served homes and businesses since 1990.
+              Founded in 2024, HT-Power Pest Control Services is a proudly Filipino-owned company born
+              from a legacy of dedication, discipline, and excellence in pest management. Established by
+              Mr. John Paul Hapa and his wife, the company is a tribute to his late father, Mr. Robert Hapa,
+              the founder of Robert General Pest Control Services, which began serving homes and businesses in 1990.
             </p>
             <p className="mt-4 max-w-[60ch] text-[#0d2f5e]/80 leading-relaxed">
-              We carry forward those values of quality, honesty, and customer care while embracing modern
-              pest control technology — with meticulous inspections, strategic treatment plans, and ongoing
-              maintenance for long-term pest-free spaces.
+              Built on decades of experience, HT-Power inherits the traditional values of quality service,
+              honesty, and customer care, while embracing modern innovations in pest control technology.
+              Mr. John Paul Hapa, having trained and worked extensively under his father's leadership,
+              carries with him the technical know-how, professionalism, and customer-centric approach that
+              made the Hapa name respected in the industry.
             </p>
             <div className="mt-7 grid grid-cols-3 gap-4">
               {[["Since 1990", "Family Legacy"], ["Free", "Inspection"], ["FDA", "Approved Products"]].map(([a, b]) => (
@@ -359,11 +379,11 @@ export default function App() {
           </div>
           <div data-reveal className="opacity-0 relative">
             <div className="relative rounded-[2rem] overflow-hidden shadow-[0_25px_60px_-20px_rgba(13,47,94,0.5)]">
-              <img src={bydBgcImg} alt="HT-Power technician treating the BYD BGC showroom" className="w-full h-full object-cover" />
+              <img src={bydBgcImg} alt="HT-Power technician treating the BYD Taguig showroom" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0d2f5e]/40 to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-white/90 p-4">
                 <div className="flex items-center gap-2 brand-navy font-bold text-sm">
-                  <BadgeCheck className="h-5 w-5 brand-royal" /> BYD – BGC Branch — General Pest Control
+                  <BadgeCheck className="h-5 w-5 brand-royal" /> BYD – Taguig — General Pest Control
                 </div>
               </div>
             </div>
@@ -372,8 +392,8 @@ export default function App() {
 
         <div className="mx-auto max-w-6xl px-5 mt-14 grid md:grid-cols-2 gap-6">
           {[
-            { icon: Target, title: "Our Mission", text: "To provide top-notch pest control services using innovative and sustainable methods that create safe, healthy environments for residential and commercial clients — and to become the premier pest control company in the Philippines." },
-            { icon: Eye, title: "Our Vision", text: "To set the standard for excellence in pest management, with unwavering commitment to efficiency, safety, and environmental responsibility — a future where every space is free from pests, fostering health, comfort, and peace of mind." },
+            { icon: Target, title: "Our Mission", text: "HT-POWER PEST CONTROL SERVICES is committed to providing top-notch pest control services, utilizing innovative and sustainable methods to create safe and healthy environments for our residential and commercial clients. Our goal is to be the premier pest control company in the Philippines through exceptional service and environmental responsibility." },
+            { icon: Eye, title: "Our Vision", text: "Striving to be the trusted partner in pest management, our vision is to set the standard for excellence in the industry. With unwavering commitment to efficiency, safety, and environmental responsibility. Through continuous innovation and a dedication to customer satisfaction, we envision a future where every space is free from pest intrusion, fostering health, comfort, and peace of mind for all." },
           ].map((m, i) => (
             <div key={m.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
               className="opacity-0 rounded-2xl bg-white border border-border p-7 shadow-sm">
@@ -387,20 +407,41 @@ export default function App() {
             </div>
           ))}
         </div>
+
+        {/* OWNER'S MESSAGE */}
+        <div className="mx-auto max-w-4xl px-5 mt-14">
+          <figure data-reveal className="opacity-0 rounded-[2rem] gradient-card border border-border p-8 md:p-12">
+            <Quote className="h-10 w-10 brand-royal" />
+            <p className="mt-2 text-sm font-bold tracking-[0.2em] brand-royal">OWNER'S MESSAGE</p>
+            <blockquote className="mt-4 space-y-4 brand-navy opacity-90 leading-relaxed">
+              <p>At HT-Power Pest Control Services, this business is more than just a livelihood — it's a legacy built with passion, perseverance, and a genuine desire to serve.</p>
+              <p>As husband and wife, we — John Paul Hapa and Sweet Telic-Hapa — founded HT-Power to honor a family tradition while creating a brand that reflects our own values: trust, excellence, and commitment.</p>
+              <p>With John Paul's roots in the industry — shaped by years of working under his late father's well-respected pest control company — and Sweet's expertise in finance and client service management, we've built HT-Power as a fusion of legacy and innovation.</p>
+              <p>We know how important it is to feel safe and secure in your own home or workplace. That's why we assure to treat every client with care, every property with respect, and every pest concern with urgency and expertise.</p>
+              <p className="font-semibold">At HT-Power, we don't just aim to eliminate pests — we aim to protect your peace of mind.</p>
+              <p>It will be our honor to serve you with the utmost care and dedication. We look forward to the opportunity to serve you soon.</p>
+            </blockquote>
+            <figcaption className="mt-6 brand-navy">
+              <span className="block text-sm opacity-70">Warmly,</span>
+              <span className="block font-extrabold">John Paul Hapa &amp; Sweet Telic-Hapa</span>
+              <span className="block text-sm opacity-70">Founders, HT-Power Pest Control Services</span>
+            </figcaption>
+          </figure>
+        </div>
       </section>
 
       {/* CREDENTIALS */}
       <section className="py-14 bg-white border-y border-border">
         <div className="mx-auto max-w-6xl px-5">
-          <p className="text-center text-sm font-bold tracking-[0.2em] brand-royal" data-reveal>REGISTERED · ACCREDITED · SAFE</p>
-          <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <h2 className="text-center font-display text-3xl md:text-4xl brand-navy" data-reveal>Trust HT-POWER with confidence</h2>
+          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {CREDENTIALS.map((c, i) => (
               <div key={c.title} data-reveal style={{ animationDelay: `${i * 60}ms` }} className="opacity-0 text-center">
                 <div className="mx-auto grid h-14 w-14 place-items-center rounded-full gradient-card brand-royal shadow-sm">
                   <c.icon className="h-7 w-7" />
                 </div>
                 <h3 className="mt-3 font-extrabold brand-navy">{c.title}</h3>
-                <p className="mt-1 text-xs brand-navy opacity-70 leading-relaxed max-w-[26ch] mx-auto">{c.text}</p>
+                <p className="mt-1 text-xs brand-navy opacity-70 leading-relaxed max-w-[34ch] mx-auto">{c.text}</p>
               </div>
             ))}
           </div>
@@ -413,30 +454,38 @@ export default function App() {
           <div className="max-w-2xl" data-reveal>
             <p className="text-xs font-bold tracking-[0.2em] text-[#a9bef0] uppercase">Why choose us</p>
             <h2 className="mt-3 font-display text-4xl md:text-6xl">
-              Six reasons clients <span className="relative text-white">trust
-                <span className="absolute left-0 right-0 -bottom-1 h-[5px] bg-white rounded-full" /></span> us
+              HT-POWER'S <span className="relative text-white">core values
+                <span className="absolute left-0 right-0 -bottom-1 h-[5px] bg-white rounded-full" /></span>
             </h2>
           </div>
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-6" data-reveal>
-            {[["Free", "Site Inspection"], ["FDA", "Approved Products"], ["5.0", "Client Rating"], ["Eco", "Friendly Products"]].map(([a, b]) => (
+            {[["Free", "Site Inspection"], ["FDA", "Approved Products"], ["BIR", "& DTI Registered"], ["PCAP", "Member"]].map(([a, b]) => (
               <div key={b} className="border-l-[3px] border-white/60 pl-4">
                 <div className="font-display text-3xl md:text-5xl"><CountUp value={a} /></div>
                 <div className="text-sm text-[#a9bef0] font-medium">{b}</div>
               </div>
             ))}
           </div>
-          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {REASONS.map((r, i) => (
-              <div key={r.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
-                className="opacity-0 group rounded-2xl border border-white/15 bg-white/[0.06] p-7 hover:bg-white/[0.1] hover:-translate-y-1 transition-all">
-                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white text-[#2952cc] shadow-lg group-hover:scale-110 transition-transform">
-                  <r.icon className="h-7 w-7" />
-                </div>
-                <h3 className="mt-5 text-lg font-extrabold text-white">{r.title}</h3>
-                <p className="mt-2 text-sm text-[#cfd9f7] leading-relaxed">{r.text}</p>
+          {[
+            { heading: null, items: CORE_VALUES },
+            { heading: "At HT-Power, we provide", items: WE_PROVIDE },
+          ].map((block) => (
+            <div key={block.heading ?? "values"}>
+              {block.heading && <h3 className="mt-16 font-display text-2xl md:text-3xl" data-reveal>{block.heading}</h3>}
+              <div className={`${block.heading ? "mt-6" : "mt-14"} grid sm:grid-cols-2 lg:grid-cols-4 gap-6`}>
+                {block.items.map((r, i) => (
+                  <div key={r.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
+                    className="opacity-0 group rounded-2xl border border-white/15 bg-white/[0.06] p-7 hover:bg-white/[0.1] hover:-translate-y-1 transition-all">
+                    <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white text-[#2952cc] shadow-lg group-hover:scale-110 transition-transform">
+                      <r.icon className="h-7 w-7" />
+                    </div>
+                    <h3 className="mt-5 text-lg font-extrabold text-white">{r.title}</h3>
+                    <p className="mt-2 text-sm text-[#cfd9f7] leading-relaxed">{r.text}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -444,10 +493,10 @@ export default function App() {
       <section id="services" className="py-20 md:py-28 gradient-soft">
         <div className="mx-auto max-w-6xl px-5">
           <div className="text-center max-w-2xl mx-auto" data-reveal>
-            <p className="text-sm font-bold tracking-[0.2em] brand-royal">CORE SERVICES</p>
+            <p className="text-sm font-bold tracking-[0.2em] brand-royal">OUR SERVICES</p>
             <h2 className="mt-3 font-display text-4xl md:text-5xl">Unleash the ultimate defense against pests</h2>
           </div>
-          <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {SERVICES.map((s, i) => (
               <div key={s.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
                 className="opacity-0 rounded-2xl p-7 flex flex-col bg-white border border-[#e2e9fb] hover:border-[#2952cc] hover:shadow-lg hover:-translate-y-1 transition-all">
@@ -460,20 +509,43 @@ export default function App() {
             ))}
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-2" data-reveal>
-            <span className="text-sm font-bold brand-navy mr-1">Pests we handle:</span>
-            {PESTS.map((p) => (
-              <span key={p} className="rounded-full bg-white border border-border px-4 py-1.5 text-sm font-semibold brand-royal">{p}</span>
+          <div className="mt-16 text-center" data-reveal>
+            <h3 className="text-xl md:text-2xl font-black">We do</h3>
+            <p className="mt-2 text-sm brand-navy opacity-75 max-w-2xl mx-auto">We offer a wide range of professional pest control services using science-based methods and modern equipment.</p>
+          </div>
+          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {WE_DO.map((w, i) => (
+              <div key={w.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
+                className="opacity-0 rounded-2xl bg-white border border-border p-5">
+                <w.icon className="h-6 w-6 brand-royal" />
+                <h4 className="mt-3 font-extrabold leading-tight brand-navy">{w.title}</h4>
+                <p className="mt-1 text-sm brand-navy opacity-75">{w.text}</p>
+              </div>
             ))}
           </div>
 
           <div className="mt-16 text-center" data-reveal>
-            <h3 className="text-xl md:text-2xl font-black">We provide pest management solutions for:</h3>
+            <h3 className="text-xl md:text-2xl font-black">We deal</h3>
+            <p className="mt-2 text-sm brand-navy opacity-75 max-w-2xl mx-auto">We are equipped to address a wide variety of pests with expertise and care.</p>
+          </div>
+          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {PESTS.map((p, i) => (
+              <div key={p.name} data-reveal style={{ animationDelay: `${i * 60}ms` }}
+                className="opacity-0 rounded-2xl gradient-card border border-border p-5">
+                <h4 className="font-extrabold leading-tight brand-royal">{p.name}</h4>
+                <p className="mt-1 text-sm brand-navy opacity-75">{p.text}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-16 text-center" data-reveal>
+            <h3 className="text-xl md:text-2xl font-black">We serve</h3>
+            <p className="mt-2 text-sm brand-navy opacity-75 max-w-2xl mx-auto">We cater to a diverse range of clients, ensuring that every property — big or small — gets the protection it deserves.</p>
           </div>
           <div className="mt-8 grid sm:grid-cols-3 gap-6">
             {CATEGORIES.map((c, i) => (
               <div key={c.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
-                className="opacity-0 flex items-center gap-4 rounded-2xl gradient-card border border-[#dcecf9] p-6">
+                className="opacity-0 flex items-start gap-4 rounded-2xl gradient-card border border-[#dcecf9] p-6">
                 <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-brand-navy text-white shadow">
                   <c.icon className="h-7 w-7" />
                 </div>
@@ -618,33 +690,41 @@ export default function App() {
         <div className="mx-auto max-w-6xl px-5">
           <div className="text-center max-w-2xl mx-auto" data-reveal>
             <p className="text-sm font-bold tracking-[0.2em] brand-royal">TRANSPARENT PRICING</p>
-            <h2 className="mt-3 font-display text-4xl md:text-5xl">Every property is different — so is your quote</h2>
+            <h2 className="mt-3 font-display text-4xl md:text-5xl">The most effective treatment, tailored to your needs and budget</h2>
             <p className="mt-4 text-[#0d2f5e]/70">
-              We don't believe in one-size-fits-all pricing. After a free, no-obligation inspection,
-              we recommend the right treatment plan for your space and give you a clear, upfront quote — no hidden fees, no surprises.
+              Recognizing that every situation is unique, we implement the most effective treatment methods
+              and management strategies for each condition.
             </p>
           </div>
-          <div className="mt-14 grid sm:grid-cols-3 gap-6">
-            {PRICING_STEPS.map((s, i) => (
-              <div key={s.title} data-reveal style={{ animationDelay: `${i * 60}ms` }}
-                className="opacity-0 flex items-center gap-4 rounded-2xl gradient-card border border-[#dcecf9] p-6">
-                <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-brand-navy text-white shadow">
-                  <s.icon className="h-7 w-7" />
-                </div>
-                <div>
-                  <h4 className="font-extrabold leading-tight">{s.title}</h4>
-                  <p className="text-sm text-[#0d2f5e]/75">{s.text}</p>
-                </div>
+          <div className="mt-14 grid md:grid-cols-2 gap-8 items-start">
+            <div data-reveal className="opacity-0 rounded-2xl gradient-card border border-border p-7">
+              <h3 className="font-extrabold text-lg brand-navy">What to expect</h3>
+              <p className="mt-2 text-sm brand-navy opacity-75 leading-relaxed">
+                To ensure we meet your needs precisely, we require an on-site inspection before providing a final
+                quotation. This allows us to assess the area, understand your specific requirements, and offer the
+                most accurate, cost-effective solution for your project.
+              </p>
+              <ul className="mt-5 space-y-3">
+                {WHAT_TO_EXPECT.map((w) => (
+                  <li key={w} className="flex items-start gap-3 text-sm font-semibold brand-navy">
+                    <CheckCircle2 className="h-5 w-5 shrink-0 brand-royal" /> {w}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div data-reveal className="opacity-0 rounded-2xl bg-white border border-border p-7">
+              <h3 className="flex items-center gap-2 font-extrabold text-lg brand-navy">
+                <CalendarClock className="h-5 w-5 brand-royal" /> Treatment schedules
+              </h3>
+              <p className="mt-2 text-sm brand-navy opacity-75 leading-relaxed">
+                Our treatments are designed to address your unique requirements and can be scheduled as:
+              </p>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                {SCHEDULES.map((s) => (
+                  <span key={s} className="rounded-xl gradient-card px-4 py-3 text-center text-sm font-bold brand-royal">{s}</span>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-2" data-reveal>
-            <span className="inline-flex items-center gap-1.5 text-sm font-bold brand-navy mr-1">
-              <CalendarClock className="h-4 w-4 brand-royal" /> Schedule treatments:
-            </span>
-            {SCHEDULES.map((s) => (
-              <span key={s} className="rounded-full bg-white border border-border px-4 py-1.5 text-sm font-semibold brand-royal">{s}</span>
-            ))}
+            </div>
           </div>
         </div>
       </section>
@@ -670,6 +750,7 @@ export default function App() {
       {/* CTA + CONTACT */}
       <section id="contact" className="relative py-20 md:py-28 bg-white">
         <div className="mx-auto max-w-xl px-5">
+          <h2 className="mb-10 text-center font-display text-4xl md:text-5xl" data-reveal>Time to Reclaim Your Space — Pest-Free!</h2>
           <ContactForm />
         </div>
       </section>
@@ -682,7 +763,7 @@ export default function App() {
               <img src={logoImg} alt="HT-Power Pest Control logo" className="h-9 w-9 rounded-full object-cover" />
               <span className="font-extrabold text-white text-lg">HT-POWER</span>
             </div>
-            <p className="mt-4 text-sm text-white/60 max-w-xs">Your trusted partner in pest control excellence — safe, effective, and eco-friendly.</p>
+            <p className="mt-4 text-sm text-white/60 max-w-xs">HT-Power — Powered by Trust. Driven by Quality. Committed to Protection.</p>
           </div>
           <div>
             <h4 className="font-bold text-white mb-3">Quick Links</h4>
