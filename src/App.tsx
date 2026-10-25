@@ -761,7 +761,7 @@ function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form), // {name, email, phone, message, establishmentType}
+        body: JSON.stringify({ ...form, website: honeypot }), // {name, email, phone, message, establishmentType, website(honeypot)}
       });
       if (res.ok) setStatus("sent");
       else throw new Error("Failed");
@@ -792,12 +792,12 @@ function ContactForm() {
         </div>
       ) : (
         <div className="mt-6 space-y-4">
-          <input type="text" value={honeypot} onChange={(e) => setHoneypot(e.target.value)}
+          <input type="text" name="website" value={honeypot} onChange={(e) => setHoneypot(e.target.value)}
             tabIndex={-1} autoComplete="off" aria-hidden="true"
             className="absolute -left-[9999px] w-px h-px overflow-hidden" />
-          <Field id="name" label="Full Name" value={form.name} onChange={set("name")} placeholder="Juan Dela Cruz" error={errs.name} />
+          <Field id="name" label="Full Name" value={form.name} onChange={set("name")} placeholder="Juan Dela Cruz" maxLength={100} error={errs.name} />
           <div className="grid sm:grid-cols-2 gap-4">
-            <Field id="email" label="Email" type="email" value={form.email} onChange={set("email")} placeholder="you@email.com" error={errs.email} />
+            <Field id="email" label="Email" type="email" value={form.email} onChange={set("email")} placeholder="you@email.com" maxLength={254} error={errs.email} />
             <Field id="phone" label="Phone" value={form.phone} onChange={set("phone")} placeholder="09XX-XXX-XXXX" maxLength={20} error={errs.phone} />
           </div>
           <div>
@@ -833,6 +833,10 @@ function ContactForm() {
             className="w-full h-12 bg-brand-navy hover:bg-[#11408a] text-white rounded-full font-semibold text-base disabled:opacity-60">
             {status === "loading" ? "Sending..." : <>Send Inquiry <Send className="ml-1 h-4 w-4" /></>}
           </Button>
+          {/* Data Privacy Act (RA 10173) notice — wording pending client sign-off */}
+          <p className="text-center text-xs brand-navy opacity-70">
+            We'll only use your details to respond to your inquiry.
+          </p>
         </div>
       )}
     </div>
