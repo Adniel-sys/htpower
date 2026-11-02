@@ -73,21 +73,6 @@ const PROJECTS = [
 ];
 
 // Wording below is taken verbatim from the client's 2026 company profile PDF and FAQ document.
-// Residential clients are private individuals, so they're not listed by name.
-const CLIENTS = [
-  { group: "Commercial", names: [
-    "Guallar Water Refilling Station", "Auntie's Empanada", "E-Prints", "Purecryst Water Refilling Station",
-    "Unsang Business Support Services", "BYD - Taguig", "BYD - Pasong Tamo", "DENZA - Makati Branch",
-    "Harmonic System Inc.", "Park Ads Inc.", "Philippine Spring Water Resources, Inc. (Nature's Spring)",
-    "Top Realty88 Corporation", "Steven Realty and Trade Dev't Corp", "Joint Endeavor Group Corp.",
-    "Cloud Ecommerce Corporation", "Dreamskin Aesthetic Depot Company", "Dreamscapade Travel & Tours Co.",
-    "Xitrix Computer Corporation", "Camerahaus",
-  ] },
-  { group: "Restaurant", names: ["Farinas Ilocos Empanada", "Chizmozza PH (SM North Branch)", "Moana Café and Eatery", "Why Chicken Pasig Branch"] },
-  { group: "Condominium", names: ["First Baron Tower Residences", "The Baron's Place"] },
-  { group: "Industrial", names: ["Ian Spices Trading"] },
-];
-
 const CREDENTIALS = [
   { logo: birLogo, title: "BIR Registered", text: "HT-Power operates as a legally recognized business under the Bureau of Internal Revenue, ensuring compliance with all tax regulations and government requirements." },
   { logo: dtiLogo, title: "DTI Registered", text: "We are officially registered with the Department of Trade and Industry, affirming our legitimacy as a business and our commitment to ethical operations." },
@@ -280,25 +265,28 @@ export default function App() {
       </header>
 
       {/* HERO */}
-      <section id="home" className="relative min-h-[620px] flex items-center overflow-hidden bg-brand-ink pt-20">
-        {/* PDF fogger photo on the right, fading into the navy so the headline stays on solid color */}
-        <img src={missionImg} alt="" aria-hidden="true" loading="eager"
-          className="absolute inset-y-0 right-0 h-full w-full lg:w-[55%] object-cover opacity-30 lg:opacity-100" />
-        <div className="absolute inset-0 bg-brand-ink/80 lg:bg-transparent lg:bg-gradient-to-r lg:from-[#162b57] lg:from-45% lg:via-[#162b57]/70 lg:via-60% lg:to-transparent" aria-hidden="true" />
-        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#162b57] to-transparent" aria-hidden="true" />
+      {/* Layout follows the client's "Protection that goes beyond the surface" Facebook post */}
+      <section id="home" className="relative overflow-hidden bg-brand-ink pt-24 pb-10 lg:pb-0 lg:min-h-[640px] lg:flex lg:flex-col lg:justify-center">
+        <div className="absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-[#162b57] to-transparent hidden lg:block" aria-hidden="true" />
+        {/* Slanted brand bands, like the post */}
+        <div className="absolute inset-y-0 left-[38%] w-[40%] bg-[#18488f] [clip-path:polygon(35%_0,100%_0,65%_100%,0_100%)] hidden lg:block" aria-hidden="true" />
+        <div className="absolute inset-y-0 left-[58%] w-[8%] bg-[#8ecce2]/25 [clip-path:polygon(60%_0,100%_0,40%_100%,0_100%)] hidden lg:block" aria-hidden="true" />
+
+        {/* Large photo: chevron-shaped frame on the right */}
+        <img src={denza1Img} alt="HT-Power technician fogging a DENZA showroom" loading="eager"
+          className="hidden lg:block absolute inset-y-0 right-0 w-[48%] h-full object-cover [clip-path:polygon(18%_0,100%_0,100%_100%,18%_100%,0_50%)]" />
+
         <div className="relative mx-auto max-w-6xl px-5 w-full">
-          <h1 className="font-display">
-            <span className="block text-2xl md:text-4xl brand-sky">WHY</span>
-            <span className="block text-6xl md:text-8xl text-white">HT-<span className="brand-sky">POWER</span></span>
-            <span className="block mt-3 text-lg md:text-2xl text-white font-semibold" style={{ fontFamily: "Poppins" }}>
-              is your top choice for pest control services
-            </span>
-          </h1>
-          <p className="mt-6 max-w-xl text-white/90 md:text-lg">
-            We believe great service doesn't have to come with a big price tag — just real people,
-            real work, and real results.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3">
+          <div className="lg:max-w-[46%]">
+            <h1 className="text-white leading-[1.05]">
+              <span className="block font-display text-5xl md:text-7xl">PROTECTION</span>
+              <span className="block mt-1 text-3xl md:text-4xl font-medium">that goes beyond</span>
+              <span className="block font-display text-4xl md:text-5xl brand-sky">the surface</span>
+            </h1>
+            <p className="mt-6 max-w-md text-white/90 md:text-lg">
+              A clean and comfortable space starts with effective pest control.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Button onClick={() => scrollTo("contact")}
               className={`${btnOnDark} px-7 h-12 text-base`}>
               Book an Inspection <ArrowRight className="ml-1 h-4 w-4" />
@@ -307,7 +295,12 @@ export default function App() {
               className={`${btnGhostDark} px-7 h-12 text-base`}>
               Our Services
             </Button>
+            </div>
           </div>
+
+          {/* Phone/tablet: the photo sits below the text (the side frame needs a wide screen) */}
+          <img src={denza1Img} alt="HT-Power technician fogging a DENZA showroom" loading="eager"
+            className="lg:hidden mt-10 w-full aspect-[4/3] object-cover rounded-2xl ring-4 ring-white/10" />
         </div>
       </section>
 
@@ -515,26 +508,6 @@ export default function App() {
                 </div>
               </button>
             ))}
-          </div>
-
-          {/* CLIENT LIST — navy panels like the PDF's CLIENTS pages */}
-          <div className="mt-20" data-reveal>
-            <h3 className="font-display text-4xl md:text-5xl text-center brand-navy">CLIENTS</h3>
-            <div className="mt-8 grid md:grid-cols-[1.6fr_1fr] gap-6">
-              {[CLIENTS.slice(0, 1), CLIENTS.slice(1)].map((col, ci) => (
-                <div key={ci} className="space-y-6">
-                  {col.map((c) => (
-                    <div key={c.group} className="rounded-xl bg-brand-ink text-white p-6">
-                      <p className="font-extrabold uppercase">{c.group}</p>
-                      <ul className="mt-3 list-disc pl-5 space-y-1 text-sm uppercase">
-                        {c.names.map((n) => <li key={n}>{n}</li>)}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-            <p className="mt-6 text-center text-sm brand-navy opacity-70">Plus homeowners across Quezon City, Manila, Mandaluyong, Pasig, and BGC Taguig.</p>
           </div>
         </div>
       </section>
