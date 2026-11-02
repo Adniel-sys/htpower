@@ -177,7 +177,7 @@ const SCHEDULES = ["One-Time", "Monthly", "Bi-Monthly", "Quarterly"];
 const WHAT_TO_EXPECT = [
   "Free site inspection within serviceable areas",
   "Customized and transparent quotation after inspection",
-  "Professional assessment for power and pest control needs",
+  "Professional assessment of your pest control needs",
   "Safe and effective methods using FDA-approved products",
   "No hidden charges — just honest, reliable service",
 ];
@@ -248,7 +248,7 @@ export default function App() {
               Get a Quote
             </Button>
           </div>
-          <button className={`xl:hidden grid h-11 w-11 -mr-2 place-items-center rounded-full ${scrolled ? "text-[#162b57]" : "text-white"}`} onClick={() => setOpen((o) => !o)} aria-label="menu">
+          <button className={`xl:hidden grid h-11 w-11 -mr-2 place-items-center rounded-full ${scrolled ? "text-[#162b57]" : "text-white"}`} onClick={() => setOpen((o) => !o)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open}>
             {open ? <X /> : <Menu />}
           </button>
         </nav>
@@ -515,7 +515,8 @@ export default function App() {
       {/* PROJECT IMAGE LIGHTBOX */}
       <Dialog open={lightbox !== null} onOpenChange={(o) => !o && setLightbox(null)}>
         <DialogContent
-          className="max-w-4xl w-[92vw] p-0 bg-transparent border-none shadow-none"
+          className="max-w-4xl w-[92vw] p-0 bg-transparent border-none shadow-none
+            [&>button:last-child]:z-10 [&>button:last-child]:rounded-full [&>button:last-child]:bg-white/90 [&>button:last-child]:p-2 [&>button:last-child]:text-[#162b57] [&>button:last-child]:opacity-100 [&>button:last-child]:shadow-lg"
           onKeyDown={(e) => {
             if (e.key === "ArrowRight") stepPhoto(1);
             if (e.key === "ArrowLeft") stepPhoto(-1);
@@ -663,7 +664,7 @@ export default function App() {
               <img src={logoImg} alt="HT-Power Pest Control logo" className="h-9 w-9 rounded-full object-cover" />
               <span className="font-extrabold text-white text-lg">HT-POWER</span>
             </div>
-            <p className="mt-4 text-sm text-white/60 max-w-xs">Your trusted partner in power solutions and pest control services.</p>
+            <p className="mt-4 text-sm text-white/60 max-w-xs">Your trusted partner in pest control services.</p>
           </div>
           <div>
             <h4 className="font-bold text-white mb-3">Quick Links</h4>
@@ -676,8 +677,10 @@ export default function App() {
           <div>
             <h4 className="font-bold text-white mb-3">Contact</h4>
             <ul className="space-y-2 text-sm">
-              <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> htpowerpestcontrol@gmail.com</li>
-              <li className="flex items-center gap-2"><Phone className="h-4 w-4" /> 0992-711-8665 · {PHONE2}</li>
+              <li><a href="mailto:htpowerpestcontrol@gmail.com" className="flex items-center gap-2 hover:text-white"><Mail className="h-4 w-4" /> htpowerpestcontrol@gmail.com</a></li>
+              <li className="flex items-center gap-2"><Phone className="h-4 w-4" />
+                <a href="tel:09927118665" className="hover:text-white">0992-711-8665</a> ·
+                <a href={`tel:${PHONE2.replace(/-/g, "")}`} className="hover:text-white">{PHONE2}</a></li>
               <li><a href={IG_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white"><Instagram className="h-4 w-4" /> @htpowerpestcontrol</a></li>
               <li><a href={FB_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white">
                 <Facebook className="h-4 w-4" /> fb.com/HTPOWERPestControl</a></li>
