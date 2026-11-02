@@ -73,21 +73,6 @@ const PROJECTS = [
 ];
 
 // Wording below is taken verbatim from the client's 2026 company profile PDF and FAQ document.
-// Residential clients are private individuals, so they're not listed by name.
-const CLIENTS = [
-  { group: "Commercial", names: [
-    "Guallar Water Refilling Station", "Auntie's Empanada", "E-Prints", "Purecryst Water Refilling Station",
-    "Unsang Business Support Services", "BYD - Taguig", "BYD - Pasong Tamo", "DENZA - Makati Branch",
-    "Harmonic System Inc.", "Park Ads Inc.", "Philippine Spring Water Resources, Inc. (Nature's Spring)",
-    "Top Realty88 Corporation", "Steven Realty and Trade Dev't Corp", "Joint Endeavor Group Corp.",
-    "Cloud Ecommerce Corporation", "Dreamskin Aesthetic Depot Company", "Dreamscapade Travel & Tours Co.",
-    "Xitrix Computer Corporation", "Camerahaus",
-  ] },
-  { group: "Restaurant", names: ["Farinas Ilocos Empanada", "Chizmozza PH (SM North Branch)", "Moana Café and Eatery", "Why Chicken Pasig Branch"] },
-  { group: "Condominium", names: ["First Baron Tower Residences", "The Baron's Place"] },
-  { group: "Industrial", names: ["Ian Spices Trading"] },
-];
-
 const CREDENTIALS = [
   { logo: birLogo, title: "BIR Registered", text: "HT-Power operates as a legally recognized business under the Bureau of Internal Revenue, ensuring compliance with all tax regulations and government requirements." },
   { logo: dtiLogo, title: "DTI Registered", text: "We are officially registered with the Department of Trade and Industry, affirming our legitimacy as a business and our commitment to ethical operations." },
@@ -523,26 +508,6 @@ export default function App() {
                 </div>
               </button>
             ))}
-          </div>
-
-          {/* CLIENT LIST — navy panels like the PDF's CLIENTS pages */}
-          <div className="mt-20" data-reveal>
-            <h3 className="font-display text-4xl md:text-5xl text-center brand-navy">CLIENTS</h3>
-            <div className="mt-8 grid md:grid-cols-[1.6fr_1fr] gap-6">
-              {[CLIENTS.slice(0, 1), CLIENTS.slice(1)].map((col, ci) => (
-                <div key={ci} className="space-y-6">
-                  {col.map((c) => (
-                    <div key={c.group} className="rounded-xl bg-brand-ink text-white p-6">
-                      <p className="font-extrabold uppercase">{c.group}</p>
-                      <ul className="mt-3 list-disc pl-5 space-y-1 text-sm uppercase">
-                        {c.names.map((n) => <li key={n}>{n}</li>)}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-            <p className="mt-6 text-center text-sm brand-navy opacity-70">Plus homeowners across Quezon City, Manila, Mandaluyong, Pasig, and BGC Taguig.</p>
           </div>
         </div>
       </section>
