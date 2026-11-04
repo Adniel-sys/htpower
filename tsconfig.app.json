@@ -19,6 +19,7 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
@@ -31,6 +32,6 @@
     }
   },
   "include": [
-    "src", "api"
+    "src", "api", "tests"
   ]
 }
