@@ -25,15 +25,25 @@ pnpm lint         # lint the codebase
 
 `api/contact.ts` also re-validates the payload server-side (required name/email, PH phone pattern, message min length, establishment type, 10KB body cap) before forwarding — this mirrors the client-side `validate()` in `ContactForm` so a direct POST to `/api/contact` (bypassing the site's UI/honeypot entirely) can't relay arbitrary unvalidated data to Make.com.
 
-Add to `.env` (never commit):
+### Cloudflare Turnstile
+The form also shows a Cloudflare Turnstile widget (bot check). Its token is sent with the form, and `api/contact.ts` verifies it with Cloudflare's `siteverify` endpoint before forwarding anything. Missing or invalid tokens get a 403, and the token itself is never forwarded to Make.com.
+
+- `VITE_TURNSTILE_SITE_KEY` is the **public** site key. Vite puts it into the client bundle, which is expected.
+- `TURNSTILE_SECRET_KEY` is the **secret** key. It is server-only and must never get a `VITE_` prefix.
+
+For local dev and Vercel Preview, use Cloudflare's test keys, which always pass on any hostname: site `1x00000000000000000000AA`, secret `1x0000000000000000000000000000000AA`. For Production, use the real keys from Cloudflare dashboard → Turnstile → your widget (hostname `htpower-website.vercel.app`).
+
+Add to `.env` (never commit; `.env.*` and `.vercel/` are git-ignored too):
 ```
 MAKE_WEBHOOK_URL=
+TURNSTILE_SECRET_KEY=
+VITE_TURNSTILE_SITE_KEY=
 ```
 
 **Local dev note:** `pnpm dev` (plain Vite) does not run `api/` functions — that's Vercel-only. To test the contact form locally end-to-end, use `vercel dev` (via `pnpm dlx vercel dev`, after `vercel link`) instead.
 
 ## Deploy
-Vercel or Netlify. Set `MAKE_WEBHOOK_URL` as a server-side env var in the dashboard (Production + Preview) — no `VITE_` prefix, since it must stay server-only.
+Vercel or Netlify. Set `MAKE_WEBHOOK_URL` and `TURNSTILE_SECRET_KEY` as server-side env vars in the dashboard (Production + Preview) — no `VITE_` prefix, since they must stay server-only. Set `VITE_TURNSTILE_SITE_KEY` too (real key for Production, test key for Preview). Redeploy after changing any of them.
 
 ## Workflow
 Push feature/staging branches, not directly to `main` — Vercel auto-deploys every branch/PR to its own preview URL. Verify changes on the preview URL first, then merge to `main` to deploy to production.

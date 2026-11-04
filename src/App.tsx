@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Shield, Users, Award, Target, Mail, Phone, Menu, X, CheckCircle2, Bug, Home,
   Send, MapPin, ArrowRight, Star, Quote, ChevronLeft, ChevronRight, CalendarClock,
@@ -705,14 +705,83 @@ export default function App() {
   );
 }
 
+/* ---------- Cloudflare Turnstile ---------- */
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+      reset: (id: string) => void;
+      remove: (id: string) => void;
+    };
+  }
+}
+
+const TURNSTILE_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+let turnstileLoader: Promise<void> | null = null;
+
+// Load the Turnstile script once; later calls reuse the same promise.
+function loadTurnstile(): Promise<void> {
+  if (window.turnstile) return Promise.resolve();
+  turnstileLoader ??= new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = TURNSTILE_SRC;
+    s.async = true;
+    s.onload = () => resolve();
+    s.onerror = () => {
+      turnstileLoader = null;
+      reject(new Error("Turnstile failed to load"));
+    };
+    document.head.appendChild(s);
+  });
+  return turnstileLoader;
+}
+
 /* ---------- Contact form ---------- */
 function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "", establishmentType: "" });
   const [honeypot, setHoneypot] = useState("");
   const [errs, setErrs] = useState<Record<string, string>>({});
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const widgetId = useRef<string | null>(null);
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  // Mount the widget while the form is showing; remove it when the "sent" screen replaces the form.
+  const formVisible = status !== "sent";
+  useEffect(() => {
+    if (!formVisible) return;
+    let cancelled = false;
+    loadTurnstile()
+      .then(() => {
+        if (cancelled || !turnstileRef.current || !window.turnstile) return;
+        widgetId.current = window.turnstile.render(turnstileRef.current, {
+          sitekey: import.meta.env.VITE_TURNSTILE_SITE_KEY,
+          theme: "light",
+          size: "flexible",
+          callback: (token: string) => {
+            setTurnstileToken(token);
+            setErrs((e) => ({ ...e, turnstile: "" }));
+          },
+          "expired-callback": () => setTurnstileToken(""),
+          "error-callback": () => setTurnstileToken(""),
+        });
+      })
+      .catch(() => setErrs((e) => ({ ...e, turnstile: "Verification failed to load. Please refresh the page." })));
+    return () => {
+      cancelled = true;
+      if (widgetId.current && window.turnstile) window.turnstile.remove(widgetId.current);
+      widgetId.current = null;
+      setTurnstileToken("");
+    };
+  }, [formVisible]);
+
+  // Tokens are single-use, so get a fresh one after every submit attempt.
+  const resetTurnstile = () => {
+    setTurnstileToken("");
+    if (widgetId.current && window.turnstile) window.turnstile.reset(widgetId.current);
+  };
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -722,6 +791,7 @@ function ContactForm() {
     if (form.phone.trim() && !/^0\d{9,10}$/.test(form.phone.replace(/[\s-]/g, ""))) e.phone = "Valid PH mobile number required";
     if (form.message.trim().length < 10) e.message = "Please add a few more details (min. 10 characters)";
     if (!form.establishmentType) e.establishmentType = "Please select an establishment type";
+    if (!turnstileToken) e.turnstile = "Please complete the verification";
     setErrs(e);
     return Object.keys(e).length === 0;
   };
@@ -737,12 +807,13 @@ function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, website: honeypot }), // {name, email, phone, message, establishmentType, website(honeypot)}
+        body: JSON.stringify({ ...form, website: honeypot, turnstileToken }), // {name, email, phone, message, establishmentType, website(honeypot), turnstileToken}
       });
       if (res.ok) setStatus("sent");
       else throw new Error("Failed");
     } catch {
       setStatus("error");
+      resetTurnstile();
     }
   };
 
@@ -798,6 +869,10 @@ function ContactForm() {
               aria-invalid={!!errs.message}
               className={`mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#18488f]/20 resize-none ${errs.message ? "border-red-400 focus:border-red-500" : "border-[#d5dbe5] focus:border-[#18488f]"}`} />
             {errs.message && <p className="mt-1 text-xs font-medium text-red-600">{errs.message}</p>}
+          </div>
+          <div>
+            <div ref={turnstileRef} className="min-h-[65px]" />
+            {errs.turnstile && <p className="mt-1 text-xs font-medium text-red-600">{errs.turnstile}</p>}
           </div>
           {status === "error" && (
             <p className="text-sm font-medium text-red-600">
