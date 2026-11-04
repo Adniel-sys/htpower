@@ -20,6 +20,7 @@ pnpm dev          # local dev server (frontend only, see note below)
 pnpm build        # type-check (tsc -b, includes api/) + production build -> dist/
 pnpm preview      # preview the production build locally
 pnpm lint         # lint with oxlint
+pnpm test         # API tests (Vitest)
 ```
 
 ## Project structure
@@ -33,8 +34,10 @@ src/lib/utils.ts          cn() class-name helper used by the UI components
 src/components/ui/        shadcn/ui components in use: accordion, button, dialog, select
 src/assets/               Photos and company-profile images (imported by App.tsx)
 public/                   og-image.jpg, robots.txt, sitemap.xml (served as-is)
+tests/contact.test.ts     API tests (kept outside api/ so Vercel doesn't deploy them as a function)
 vercel.json               Security headers and Content-Security-Policy
-.github/workflows/        Uptime check (pings the live site 5 times a day; a failed run triggers GitHub's email)
+.github/workflows/        CI (ci.yml) and uptime check (uptime-check.yml)
+.github/dependabot.yml    Weekly dependency update PRs
 .claude/skills/           Design-system notes for Claude Code
 ```
 
@@ -93,6 +96,13 @@ Vercel only. `api/contact.ts` is a Vercel Edge Function and the headers live in 
 
 When the site moves to a custom domain, also update the hard-coded `htpower-website.vercel.app` URLs in `index.html` (canonical, Open Graph, Twitter), `public/robots.txt` and `public/sitemap.xml`.
 
+## CI and branch protection
+
+- **CI** (`.github/workflows/ci.yml`, job name `check`) runs on every pull request and every push to `main`: frozen `pnpm install` (pnpm 10, Node 22), `pnpm lint`, `pnpm test`, then `pnpm build` (type-check + build).
+- **Ruleset "Protect main"** (GitHub → Settings → Rules) requires `check` to pass before anything lands on `main`, and blocks deleting or force-pushing `main`. Repository admins can bypass it for emergencies.
+- **Dependabot** opens update PRs weekly: npm minor and patch updates grouped into one PR, GitHub Actions separately. Major upgrades of `typescript` and `tailwindcss` are ignored because they need a planned migration, not an automatic bump. Merge an update PR only when `check` and its Vercel preview are green.
+- **Uptime check** (`.github/workflows/uptime-check.yml`) pings the live site 5 times a day; a failed run triggers GitHub's failure email.
+
 ## Workflow
 
-Don't push directly to `main`. Create a branch from `main`, push it, check the Vercel preview URL, then merge to `main` to deploy to production. Delete the branch after merging.
+Don't push directly to `main`. Create a branch from `main`, push it, and open a pull request. Merge only when `check` and the Vercel preview are green; merging to `main` deploys to production. Delete the branch after merging.
