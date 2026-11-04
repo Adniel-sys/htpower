@@ -38,7 +38,7 @@ Two ways colors show up here; prefer the first, but match whichever a section al
 - **Clickable cards/images**: use a `<button type="button">` wrapper (not a `<div onClick>`) for anything interactive, for keyboard/screen-reader accessibility — see the Projects gallery (`src/App.tsx`) which opens a lightbox `Dialog` on click.
 - **Buttons**: reuse the shared class strings at the top of `App.tsx` (`btnOnDark`, `btnGhostDark`) or the shadcn `Button` component (`src/components/ui/button.tsx`) — don't hand-roll new button styling.
 - **Modals/overlays**: use the existing shadcn `Dialog` (`src/components/ui/dialog.tsx`, wraps `@radix-ui/react-dialog`) rather than a custom overlay implementation. Always include a `DialogTitle` (use `className="sr-only"` if it shouldn't be visible) — Radix requires it for accessibility.
-- **Forms**: label + input pairs should use matching `htmlFor`/`id` (existing `ContactForm` is missing this — don't repeat that gap in new form fields).
+- **Forms**: label + input pairs should use matching `htmlFor`/`id` — the `Field` helper in `App.tsx` already does this; reuse it for new text inputs. Only `accordion`, `button`, `dialog` and `select` exist under `src/components/ui/`; add others with the shadcn CLI (`components.json`) when needed.
 
 ## Animation conventions
 
