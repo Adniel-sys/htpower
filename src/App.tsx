@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Shield, Users, Award, Target, Mail, Phone, Menu, X, CheckCircle2, Bug, Home,
   Send, MapPin, ArrowRight, Star, Quote, ChevronLeft, ChevronRight, CalendarClock,
@@ -177,7 +177,7 @@ const SCHEDULES = ["One-Time", "Monthly", "Bi-Monthly", "Quarterly"];
 const WHAT_TO_EXPECT = [
   "Free site inspection within serviceable areas",
   "Customized and transparent quotation after inspection",
-  "Professional assessment for power and pest control needs",
+  "Professional assessment of your pest control needs",
   "Safe and effective methods using FDA-approved products",
   "No hidden charges — just honest, reliable service",
 ];
@@ -248,7 +248,7 @@ export default function App() {
               Get a Quote
             </Button>
           </div>
-          <button className={`xl:hidden grid h-11 w-11 -mr-2 place-items-center rounded-full ${scrolled ? "text-[#162b57]" : "text-white"}`} onClick={() => setOpen((o) => !o)} aria-label="menu">
+          <button className={`xl:hidden grid h-11 w-11 -mr-2 place-items-center rounded-full ${scrolled ? "text-[#162b57]" : "text-white"}`} onClick={() => setOpen((o) => !o)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open}>
             {open ? <X /> : <Menu />}
           </button>
         </nav>
@@ -515,7 +515,8 @@ export default function App() {
       {/* PROJECT IMAGE LIGHTBOX */}
       <Dialog open={lightbox !== null} onOpenChange={(o) => !o && setLightbox(null)}>
         <DialogContent
-          className="max-w-4xl w-[92vw] p-0 bg-transparent border-none shadow-none"
+          className="max-w-4xl w-[92vw] p-0 bg-transparent border-none shadow-none
+            [&>button:last-child]:z-10 [&>button:last-child]:rounded-full [&>button:last-child]:bg-white/90 [&>button:last-child]:p-2 [&>button:last-child]:text-[#162b57] [&>button:last-child]:opacity-100 [&>button:last-child]:shadow-lg"
           onKeyDown={(e) => {
             if (e.key === "ArrowRight") stepPhoto(1);
             if (e.key === "ArrowLeft") stepPhoto(-1);
@@ -663,7 +664,7 @@ export default function App() {
               <img src={logoImg} alt="HT-Power Pest Control logo" className="h-9 w-9 rounded-full object-cover" />
               <span className="font-extrabold text-white text-lg">HT-POWER</span>
             </div>
-            <p className="mt-4 text-sm text-white/60 max-w-xs">Your trusted partner in power solutions and pest control services.</p>
+            <p className="mt-4 text-sm text-white/60 max-w-xs">Your trusted partner in pest control services.</p>
           </div>
           <div>
             <h4 className="font-bold text-white mb-3">Quick Links</h4>
@@ -676,8 +677,10 @@ export default function App() {
           <div>
             <h4 className="font-bold text-white mb-3">Contact</h4>
             <ul className="space-y-2 text-sm">
-              <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> htpowerpestcontrol@gmail.com</li>
-              <li className="flex items-center gap-2"><Phone className="h-4 w-4" /> 0992-711-8665 · {PHONE2}</li>
+              <li><a href="mailto:htpowerpestcontrol@gmail.com" className="flex items-center gap-2 hover:text-white"><Mail className="h-4 w-4" /> htpowerpestcontrol@gmail.com</a></li>
+              <li className="flex items-center gap-2"><Phone className="h-4 w-4" />
+                <a href="tel:09927118665" className="hover:text-white">0992-711-8665</a> ·
+                <a href={`tel:${PHONE2.replace(/-/g, "")}`} className="hover:text-white">{PHONE2}</a></li>
               <li><a href={IG_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white"><Instagram className="h-4 w-4" /> @htpowerpestcontrol</a></li>
               <li><a href={FB_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white">
                 <Facebook className="h-4 w-4" /> fb.com/HTPOWERPestControl</a></li>
@@ -702,14 +705,83 @@ export default function App() {
   );
 }
 
+/* ---------- Cloudflare Turnstile ---------- */
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+      reset: (id: string) => void;
+      remove: (id: string) => void;
+    };
+  }
+}
+
+const TURNSTILE_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+let turnstileLoader: Promise<void> | null = null;
+
+// Load the Turnstile script once; later calls reuse the same promise.
+function loadTurnstile(): Promise<void> {
+  if (window.turnstile) return Promise.resolve();
+  turnstileLoader ??= new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = TURNSTILE_SRC;
+    s.async = true;
+    s.onload = () => resolve();
+    s.onerror = () => {
+      turnstileLoader = null;
+      reject(new Error("Turnstile failed to load"));
+    };
+    document.head.appendChild(s);
+  });
+  return turnstileLoader;
+}
+
 /* ---------- Contact form ---------- */
 function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "", establishmentType: "" });
   const [honeypot, setHoneypot] = useState("");
   const [errs, setErrs] = useState<Record<string, string>>({});
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const widgetId = useRef<string | null>(null);
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  // Mount the widget while the form is showing; remove it when the "sent" screen replaces the form.
+  const formVisible = status !== "sent";
+  useEffect(() => {
+    if (!formVisible) return;
+    let cancelled = false;
+    loadTurnstile()
+      .then(() => {
+        if (cancelled || !turnstileRef.current || !window.turnstile) return;
+        widgetId.current = window.turnstile.render(turnstileRef.current, {
+          sitekey: import.meta.env.VITE_TURNSTILE_SITE_KEY,
+          theme: "light",
+          size: "flexible",
+          callback: (token: string) => {
+            setTurnstileToken(token);
+            setErrs((e) => ({ ...e, turnstile: "" }));
+          },
+          "expired-callback": () => setTurnstileToken(""),
+          "error-callback": () => setTurnstileToken(""),
+        });
+      })
+      .catch(() => setErrs((e) => ({ ...e, turnstile: "Verification failed to load. Please refresh the page." })));
+    return () => {
+      cancelled = true;
+      if (widgetId.current && window.turnstile) window.turnstile.remove(widgetId.current);
+      widgetId.current = null;
+      setTurnstileToken("");
+    };
+  }, [formVisible]);
+
+  // Tokens are single-use, so get a fresh one after every submit attempt.
+  const resetTurnstile = () => {
+    setTurnstileToken("");
+    if (widgetId.current && window.turnstile) window.turnstile.reset(widgetId.current);
+  };
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -719,6 +791,7 @@ function ContactForm() {
     if (form.phone.trim() && !/^0\d{9,10}$/.test(form.phone.replace(/[\s-]/g, ""))) e.phone = "Valid PH mobile number required";
     if (form.message.trim().length < 10) e.message = "Please add a few more details (min. 10 characters)";
     if (!form.establishmentType) e.establishmentType = "Please select an establishment type";
+    if (!turnstileToken) e.turnstile = "Please complete the verification";
     setErrs(e);
     return Object.keys(e).length === 0;
   };
@@ -734,12 +807,13 @@ function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, website: honeypot }), // {name, email, phone, message, establishmentType, website(honeypot)}
+        body: JSON.stringify({ ...form, website: honeypot, turnstileToken }), // {name, email, phone, message, establishmentType, website(honeypot), turnstileToken}
       });
       if (res.ok) setStatus("sent");
       else throw new Error("Failed");
     } catch {
       setStatus("error");
+      resetTurnstile();
     }
   };
 
@@ -795,6 +869,10 @@ function ContactForm() {
               aria-invalid={!!errs.message}
               className={`mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#18488f]/20 resize-none ${errs.message ? "border-red-400 focus:border-red-500" : "border-[#d5dbe5] focus:border-[#18488f]"}`} />
             {errs.message && <p className="mt-1 text-xs font-medium text-red-600">{errs.message}</p>}
+          </div>
+          <div>
+            <div ref={turnstileRef} className="min-h-[65px]" />
+            {errs.turnstile && <p className="mt-1 text-xs font-medium text-red-600">{errs.turnstile}</p>}
           </div>
           {status === "error" && (
             <p className="text-sm font-medium text-red-600">

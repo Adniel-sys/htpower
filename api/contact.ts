@@ -14,6 +14,7 @@ type ContactPayload = {
   message?: unknown;
   establishmentType?: unknown;
   website?: unknown; // honeypot: hidden from people, filled by bots
+  turnstileToken?: unknown; // Cloudflare Turnstile response, verified below and never forwarded
 };
 
 type CleanPayload = { name: string; email: string; phone: string; message: string; establishmentType: string };
@@ -38,6 +39,19 @@ function validate(data: ContactPayload): { error: string } | { clean: CleanPaylo
   if (clean.message.length < 10) return { error: "Message must be at least 10 characters" };
   if (!clean.establishmentType) return { error: "Establishment type is required" };
   return { clean };
+}
+
+const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+
+// Ask Cloudflare whether the Turnstile token is valid. Throws on network failure.
+async function verifyTurnstile(token: string, secret: string, ip: string | null): Promise<boolean> {
+  const form = new FormData();
+  form.append("secret", secret);
+  form.append("response", token);
+  if (ip) form.append("remoteip", ip);
+  const res = await fetch(TURNSTILE_VERIFY_URL, { method: "POST", body: form });
+  const outcome = (await res.json()) as { success?: boolean };
+  return outcome.success === true;
 }
 
 // Only accept browser requests sent from this same site (production, previews, or a custom domain).
@@ -66,7 +80,8 @@ export default async function handler(request: Request): Promise<Response> {
   }
 
   const webhookUrl = process.env.MAKE_WEBHOOK_URL;
-  if (!webhookUrl) {
+  const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+  if (!webhookUrl || !turnstileSecret) {
     return new Response("Server misconfigured", { status: 500 });
   }
 
@@ -93,6 +108,20 @@ export default async function handler(request: Request): Promise<Response> {
   const result = validate(data);
   if ("error" in result) {
     return new Response(result.error, { status: 400 });
+  }
+
+  const token = str(data.turnstileToken);
+  if (!token || token.length > 2048) {
+    return new Response("Verification required", { status: 403 });
+  }
+  try {
+    const ip = request.headers.get("x-real-ip");
+    if (!(await verifyTurnstile(token, turnstileSecret, ip))) {
+      return new Response("Verification failed", { status: 403 });
+    }
+  } catch (err) {
+    console.error("Turnstile verification failed:", err);
+    return new Response("Verification unavailable", { status: 502 });
   }
 
   try {
