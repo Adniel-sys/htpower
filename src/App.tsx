@@ -743,6 +743,8 @@ function ContactForm() {
   const [honeypot, setHoneypot] = useState("");
   const [errs, setErrs] = useState<Record<string, string>>({});
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
   const turnstileRef = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -791,6 +793,7 @@ function ContactForm() {
     if (form.phone.trim() && !/^0\d{9,10}$/.test(form.phone.replace(/[\s-]/g, ""))) e.phone = "Valid PH mobile number required";
     if (form.message.trim().length < 10) e.message = "Please add a few more details (min. 10 characters)";
     if (!form.establishmentType) e.establishmentType = "Please select an establishment type";
+    if (!consent) e.consent = "Please agree to the Privacy Notice to send your inquiry";
     if (!turnstileToken) e.turnstile = "Please complete the verification";
     setErrs(e);
     return Object.keys(e).length === 0;
@@ -807,7 +810,7 @@ function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, website: honeypot, turnstileToken }), // {name, email, phone, message, establishmentType, website(honeypot), turnstileToken}
+        body: JSON.stringify({ ...form, website: honeypot, consent, turnstileToken }), // {name, email, phone, message, establishmentType, website(honeypot), consent, turnstileToken}
       });
       if (res.ok) setStatus("sent");
       else throw new Error("Failed");
@@ -830,6 +833,7 @@ function ContactForm() {
             onClick={() => {
               setStatus("idle");
               setForm({ name: "", email: "", phone: "", message: "", establishmentType: "" });
+              setConsent(false);
               setErrs({});
             }}
             className="mt-5 text-sm font-semibold brand-royal underline underline-offset-2 hover:no-underline"
@@ -871,6 +875,24 @@ function ContactForm() {
             {errs.message && <p className="mt-1 text-xs font-medium text-red-600">{errs.message}</p>}
           </div>
           <div>
+            <div className="flex items-start gap-2.5">
+              <input id="consent" type="checkbox" checked={consent} aria-invalid={!!errs.consent}
+                onChange={(e) => {
+                  setConsent(e.target.checked);
+                  if (e.target.checked) setErrs((er) => ({ ...er, consent: "" }));
+                }}
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border-[#d5dbe5] accent-[#18488f]" />
+              <label htmlFor="consent" className="text-xs leading-relaxed text-[#162b57]/80">
+                I agree to HT-Power collecting and using my details to respond to this inquiry, as described in the{" "}
+                <button type="button" onClick={() => setPrivacyOpen(true)}
+                  className="font-semibold brand-royal underline underline-offset-2 hover:no-underline">
+                  Privacy Notice
+                </button>.
+              </label>
+            </div>
+            {errs.consent && <p className="mt-1 text-xs font-medium text-red-600">{errs.consent}</p>}
+          </div>
+          <div>
             <div ref={turnstileRef} className="min-h-[65px]" />
             {errs.turnstile && <p className="mt-1 text-xs font-medium text-red-600">{errs.turnstile}</p>}
           </div>
@@ -884,13 +906,43 @@ function ContactForm() {
             className="w-full h-12 bg-brand-navy hover:bg-[#11408a] text-white rounded-full font-semibold text-base disabled:opacity-60">
             {status === "loading" ? "Sending..." : <>Send Inquiry <Send className="ml-1 h-4 w-4" /></>}
           </Button>
-          {/* Data Privacy Act (RA 10173) notice — wording pending client sign-off */}
           <p className="text-center text-xs brand-navy opacity-70">
-            We'll only use your details to respond to your inquiry.
+            Your details are protected under the Data Privacy Act of 2012 (RA 10173).
           </p>
         </div>
       )}
+      <PrivacyNotice open={privacyOpen} onOpenChange={setPrivacyOpen} />
     </div>
+  );
+}
+
+/* ---------- Privacy Notice (Data Privacy Act of 2012, RA 10173) ---------- */
+// Draft wording on behalf of the owners; confirm with the client before changing.
+function PrivacyNotice({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+  const sections: [string, React.ReactNode][] = [
+    ["Who we are", <>HT-Power Pest Control Services, owned by John Paul Hapa and Sweet Telic-Hapa. For any privacy concern, email{" "}
+      <a href="mailto:htpowerpestcontrol@gmail.com" className="brand-royal underline">htpowerpestcontrol@gmail.com</a>.</>],
+    ["What we collect", "Your name, email address, phone number (if you give one), type of establishment, and your message."],
+    ["Why we collect it", "Only to reply to your inquiry and prepare your quote or inspection schedule. We won't send you marketing without asking you separately, and we never sell your details."],
+    ["Who helps us process it", "Trusted service providers that deliver your message to our team: Vercel (website hosting), Cloudflare Turnstile (spam protection), Make.com (forwarding your inquiry), and Telegram and email (notifying our team and sending your confirmation)."],
+    ["How long we keep it", "Only as long as we need it to handle your inquiry and any service that follows from it."],
+    ["Your rights", <>Under the Data Privacy Act of 2012, you can ask to access, correct, or delete your details, or object to how we use them. Just email us. You can also contact the National Privacy Commission at{" "}
+      <a href="https://privacy.gov.ph" target="_blank" rel="noopener noreferrer" className="brand-royal underline">privacy.gov.ph</a>.</>],
+  ];
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-lg w-[92vw] max-h-[85vh] overflow-y-auto rounded-2xl">
+        <DialogTitle className="text-xl font-black text-[#162b57]">Privacy Notice</DialogTitle>
+        <div className="space-y-4 text-sm text-[#162b57]/85">
+          {sections.map(([title, body]) => (
+            <div key={title}>
+              <h4 className="font-bold text-[#162b57]">{title}</h4>
+              <p className="mt-1 leading-relaxed">{body}</p>
+            </div>
+          ))}
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 

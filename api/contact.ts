@@ -14,6 +14,7 @@ type ContactPayload = {
   message?: unknown;
   establishmentType?: unknown;
   website?: unknown; // honeypot: hidden from people, filled by bots
+  consent?: unknown; // RA 10173 consent checkbox; must be exactly true, not forwarded
   turnstileToken?: unknown; // Cloudflare Turnstile response, verified below and never forwarded
 };
 
@@ -38,6 +39,7 @@ function validate(data: ContactPayload): { error: string } | { clean: CleanPaylo
   if (clean.phone && !/^0\d{9,10}$/.test(clean.phone.replace(/[\s-]/g, ""))) return { error: "Valid PH mobile number required" };
   if (clean.message.length < 10) return { error: "Message must be at least 10 characters" };
   if (!clean.establishmentType) return { error: "Establishment type is required" };
+  if (data.consent !== true) return { error: "Consent is required" };
   return { clean };
 }
 
