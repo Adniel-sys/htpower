@@ -641,7 +641,8 @@ export default function App() {
             {FAQS.map((f) => (
               <AccordionItem key={f.q} value={f.q} className="border-border">
                 <AccordionTrigger className="py-5 text-base font-bold brand-navy hover:no-underline hover:text-[#18488f]">{f.q}</AccordionTrigger>
-                <AccordionContent className="brand-navy opacity-80 leading-relaxed text-[15px]">{f.a}</AccordionContent>
+                {/* forceMount keeps closed answers in the pre-rendered HTML (hidden until opened) for search engines */}
+                <AccordionContent forceMount className="brand-navy opacity-80 leading-relaxed text-[15px]">{f.a}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
@@ -687,7 +688,7 @@ export default function App() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-white/10 py-5 text-center text-xs text-white/50">
+        <div className="border-t border-white/10 py-5 text-center text-xs text-white/50" suppressHydrationWarning>
           © {new Date().getFullYear()} HT-Power Pest Control Services. All rights reserved.
         </div>
       </footer>

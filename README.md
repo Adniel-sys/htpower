@@ -17,7 +17,7 @@ If `pnpm` isn't installed, run `npm install -g pnpm`, or prefix each command bel
 ```bash
 pnpm install
 pnpm dev          # local dev server (frontend only, see note below)
-pnpm build        # type-check (tsc -b, includes api/) + production build -> dist/
+pnpm build        # type-check (tsc -b, includes api/) + production build + pre-render -> dist/
 pnpm preview      # preview the production build locally
 pnpm lint         # lint with oxlint
 pnpm test         # API tests (Vitest)
@@ -27,7 +27,9 @@ pnpm test         # API tests (Vitest)
 
 ```
 api/contact.ts            Vercel Edge Function behind the contact form
-src/main.tsx              Entry point that mounts App
+src/main.tsx              Browser entry: hydrates the pre-rendered page
+src/entry-server.tsx      Build-time entry: renders App to an HTML string
+scripts/prerender.mjs     Puts that HTML into dist/index.html after the build
 src/App.tsx               The whole page: sections, ContactForm, Turnstile widget
 src/index.css             Tailwind layers, brand colors, gradients, fonts
 src/lib/utils.ts          cn() class-name helper used by the UI components
@@ -40,6 +42,12 @@ vercel.json               Security headers and Content-Security-Policy
 .github/dependabot.yml    Weekly dependency update PRs
 .claude/skills/           Design-system notes for Claude Code
 ```
+
+## Pre-rendering
+
+`pnpm build` runs two Vite builds: the normal client build, then a server build of `src/entry-server.tsx` into `dist-ssr/`. `scripts/prerender.mjs` renders `App` to HTML, puts it inside `<div id="root">` in `dist/index.html`, and deletes `dist-ssr/`. Search engines and link previews (Messenger, Viber) get the full page text without running JavaScript, and `main.tsx` hydrates it in the browser.
+
+Because `App` is rendered in Node at build time, browser APIs (`window`, `document`, `localStorage`) may only be used inside `useEffect` or event handlers, never during render. The FAQ uses `forceMount` so closed answers are still in the HTML (hidden with CSS until opened).
 
 ## Contact form
 
