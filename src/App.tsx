@@ -8,29 +8,29 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import bydImg from "./assets/photos/byd.jpg";
-import bydBgcImg from "./assets/photos/byd-bgc.jpg";
-import bydPt1Img from "./assets/photos/byd-pasongtamo-1.jpg";
-import bydPt2Img from "./assets/photos/byd-pasongtamo-2.jpg";
-import bydPt3Img from "./assets/photos/byd-pasongtamo-3.jpg";
-import denza1Img from "./assets/photos/denza-1.jpg";
-import denza2Img from "./assets/photos/denza-2.jpg";
-import denza3Img from "./assets/photos/denza-3.jpg";
-import topRealty1Img from "./assets/photos/toprealty-1.jpg";
-import topRealty2Img from "./assets/photos/toprealty-2.jpg";
-import parkads2Img from "./assets/photos/parkads2.jpg";
-import firstbaronImg from "./assets/photos/firstbaron.jpg";
-import moanaImg from "./assets/photos/moana.jpg";
-import chizmozzaImg from "./assets/photos/chizmozza.jpg";
-import farinasImg from "./assets/photos/farinas.jpg";
+import bydImg from "./assets/photos/byd.webp";
+import bydBgcImg from "./assets/photos/byd-bgc.webp";
+import bydPt1Img from "./assets/photos/byd-pasongtamo-1.webp";
+import bydPt2Img from "./assets/photos/byd-pasongtamo-2.webp";
+import bydPt3Img from "./assets/photos/byd-pasongtamo-3.webp";
+import denza1Img from "./assets/photos/denza-1.webp";
+import denza2Img from "./assets/photos/denza-2.webp";
+import denza3Img from "./assets/photos/denza-3.webp";
+import topRealty1Img from "./assets/photos/toprealty-1.webp";
+import topRealty2Img from "./assets/photos/toprealty-2.webp";
+import parkads2Img from "./assets/photos/parkads2.webp";
+import firstbaronImg from "./assets/photos/firstbaron.webp";
+import moanaImg from "./assets/photos/moana.webp";
+import chizmozzaImg from "./assets/photos/chizmozza.webp";
+import farinasImg from "./assets/photos/farinas.webp";
 import logoImg from "./assets/photos/logo.png";
 // Images taken from the client's 2026 company profile PDF
 import missionImg from "./assets/pdf/mission.jpg";
-import ourServicesImg from "./assets/pdf/our-services.jpg";
-import ownersImg from "./assets/pdf/owners.png";
-import weServeImg from "./assets/pdf/we-serve.jpg";
-import weDoImg from "./assets/pdf/we-do.jpg";
-import schedulesImg from "./assets/pdf/schedules.jpg";
+import ourServicesImg from "./assets/pdf/our-services.webp";
+import ownersImg from "./assets/pdf/owners.webp";
+import weServeImg from "./assets/pdf/we-serve.webp";
+import weDoImg from "./assets/pdf/we-do.webp";
+import schedulesImg from "./assets/pdf/schedules.webp";
 import birLogo from "./assets/pdf/bir.png";
 import dtiLogo from "./assets/pdf/dti.png";
 import pcapLogo from "./assets/pdf/pcap.png";
@@ -224,7 +224,7 @@ export default function App() {
       <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? "bg-white/95 shadow-[0_2px_20px_rgba(22,43,87,0.08)]" : "bg-transparent"}`}>
         <nav className="mx-auto max-w-7xl px-5 h-16 flex items-center justify-between">
           <button onClick={() => scrollTo("home")} className="flex items-center gap-2 shrink-0">
-            <img src={logoImg} alt="HT-Power Pest Control logo" className="h-9 w-9 rounded-full object-cover" />
+            <img src={logoImg} alt="HT-Power Pest Control logo" width={96} height={95} className="h-9 w-9 rounded-full object-cover" />
             <span className={`font-extrabold tracking-tight text-lg whitespace-nowrap ${scrolled ? "brand-navy" : "text-white"}`}>
               HT-POWER<span className={`block text-[10px] font-semibold tracking-[0.22em] -mt-1 ${scrolled ? "text-[#18488f]" : "text-white/80"}`}>PEST CONTROL</span>
             </span>
@@ -273,7 +273,7 @@ export default function App() {
         <div className="absolute inset-y-0 left-[58%] w-[8%] bg-[#8ecce2]/25 [clip-path:polygon(60%_0,100%_0,40%_100%,0_100%)] hidden lg:block" aria-hidden="true" />
 
         {/* Large photo: chevron-shaped frame on the right */}
-        <img src={denza1Img} alt="HT-Power technician fogging a DENZA showroom" loading="eager"
+        <img src={denza1Img} alt="HT-Power technician fogging a DENZA showroom" width={1117} height={1400} loading="eager"
           className="hidden lg:block absolute inset-y-0 right-0 w-[48%] h-full object-cover [clip-path:polygon(18%_0,100%_0,100%_100%,18%_100%,0_50%)]" />
 
         <div className="relative mx-auto max-w-6xl px-5 w-full">
@@ -299,7 +299,7 @@ export default function App() {
           </div>
 
           {/* Phone/tablet: the photo sits below the text (the side frame needs a wide screen) */}
-          <img src={denza1Img} alt="HT-Power technician fogging a DENZA showroom" loading="eager"
+          <img src={denza1Img} alt="HT-Power technician fogging a DENZA showroom" width={1117} height={1400} loading="eager"
             className="lg:hidden mt-10 w-full aspect-[4/3] object-cover rounded-2xl ring-4 ring-white/10" />
         </div>
       </section>
@@ -331,7 +331,7 @@ export default function App() {
         <div className="mx-auto max-w-6xl px-5">
           <h2 className="text-center font-display text-4xl md:text-5xl brand-navy" data-reveal>Mission and Vision</h2>
           <div className="mt-12 grid lg:grid-cols-[1fr_1.15fr] items-stretch" data-reveal>
-            <img src={missionImg} alt="HT-Power technician fogging with a thermal fogger"
+            <img src={missionImg} alt="HT-Power technician fogging with a thermal fogger" width={455} height={348}
               className="w-full h-64 lg:h-full object-cover rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none" />
             <div className="bg-brand-ink text-white p-8 md:p-10 rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none space-y-6 md:text-justify leading-relaxed">
               <p>HT-POWER PEST CONTROL SERVICES is committed to providing top-notch pest control services, utilizing innovative and sustainable methods to create safe and healthy environments for our residential and commercial clients. Our goal is to be the premier pest control company in the Philippines through exceptional service and environmental responsibility.</p>
@@ -436,7 +436,7 @@ export default function App() {
           <h2 className="text-center font-display text-4xl md:text-5xl brand-navy" data-reveal>Our Services</h2>
           {/* Photo framed in navy, like the PDF's Our Services page */}
           <div className="mt-10 mx-auto max-w-3xl rounded-2xl bg-brand-ink p-3 sm:p-5" data-reveal>
-            <img src={ourServicesImg} alt="Two HT-Power technicians inspecting a cabinet for pests" loading="lazy"
+            <img src={ourServicesImg} alt="Two HT-Power technicians inspecting a cabinet for pests" width={1100} height={825} loading="lazy"
               className="block w-full aspect-[4/3] object-cover rounded-lg" />
           </div>
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -462,7 +462,7 @@ export default function App() {
           </h2>
           {[AT_HTPOWER.slice(0, 2), AT_HTPOWER.slice(2)].map((pair, pi) => (
             <div key={pi} className={`mt-12 grid gap-8 items-start ${pi === 0 ? "lg:grid-cols-[1fr_1.2fr]" : "lg:grid-cols-[1.2fr_1fr]"}`}>
-              <img src={pi === 0 ? weServeImg : weDoImg} loading="lazy" data-reveal
+              <img src={pi === 0 ? weServeImg : weDoImg} width={pi === 0 ? 1400 : 900} height={pi === 0 ? 1050 : 1200} loading="lazy" data-reveal
                 alt={pi === 0 ? "HT-Power technician fogging the BYD showroom lounge" : "HT-Power technician treating a floor drain"}
                 className={`opacity-0 w-full h-64 sm:h-80 lg:h-full max-h-[34rem] object-cover rounded-2xl ${pi === 1 ? "lg:order-2" : ""}`} />
               <div className="space-y-8">
@@ -623,7 +623,7 @@ export default function App() {
               {/* Navy offset frame like the PDF: same size as the photo, shifted up-left, so it never overflows */}
               <div className="relative mt-9 ml-3">
                 <div className="absolute inset-0 -translate-x-3 -translate-y-3 bg-brand-ink rounded-lg" aria-hidden="true" />
-                <img src={schedulesImg} alt="HT-Power technician setting up a rodent bait station" loading="lazy"
+                <img src={schedulesImg} alt="HT-Power technician setting up a rodent bait station" width={600} height={800} loading="lazy"
                   className="relative block w-full aspect-[4/3] object-cover object-center rounded-lg" />
               </div>
             </div>
@@ -661,7 +661,7 @@ export default function App() {
         <div className="mx-auto max-w-7xl px-5 py-12 grid md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-2">
-              <img src={logoImg} alt="HT-Power Pest Control logo" className="h-9 w-9 rounded-full object-cover" />
+              <img src={logoImg} alt="HT-Power Pest Control logo" width={96} height={95} className="h-9 w-9 rounded-full object-cover" />
               <span className="font-extrabold text-white text-lg">HT-POWER</span>
             </div>
             <p className="mt-4 text-sm text-white/60 max-w-xs">Your trusted partner in pest control services.</p>
