@@ -12,6 +12,7 @@ const validBody = {
   message: "We have termites in the warehouse.",
   establishmentType: "Industrial & Warehouses",
   website: "",
+  consent: true,
   turnstileToken: "test-token",
 };
 
@@ -109,6 +110,8 @@ describe("POST /api/contact", () => {
     ["non-PH phone", { phone: "12345" }],
     ["short message", { message: "hi" }],
     ["missing establishment type", { establishmentType: "" }],
+    ["missing consent", { consent: undefined }],
+    ["consent sent as a string", { consent: "true" }],
   ])("rejects %s with 400", async (_label, override) => {
     const fetchMock = mockFetch();
     const res = await handler(post({ ...validBody, ...override }));

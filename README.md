@@ -45,11 +45,11 @@ vercel.json               Security headers and Content-Security-Policy
 
 Flow: **website form → `/api/contact` → Cloudflare Turnstile check → Make.com webhook → Telegram alert + confirmation email to the customer.**
 
-`ContactForm` in `src/App.tsx` posts `{name, email, phone, message, establishmentType, website, turnstileToken}` as JSON to same-origin `/api/contact`. `website` is a hidden honeypot field. The Edge Function in `api/contact.ts`:
+`ContactForm` in `src/App.tsx` posts `{name, email, phone, message, establishmentType, website, consent, turnstileToken}` as JSON to same-origin `/api/contact`. `website` is a hidden honeypot field. `consent` is the required Data Privacy Act (RA 10173) checkbox; its "Privacy Notice" link opens the `PrivacyNotice` dialog in `App.tsx` (wording drafted for the owners; get their approval before changing it). The Edge Function in `api/contact.ts`:
 
 1. Accepts only `POST` with `Content-Type: application/json`, from the site's own origin, up to 10 KB.
 2. Drops the request silently (fake 200) if the honeypot is filled. The form also does this before sending.
-3. Re-validates every field, mirroring the client-side `validate()`: name uses only letters (accented letters allowed), spaces, `.`, `'` and `-`; email must be valid; phone is optional, but if given must start with `0` and have 10–11 digits (spaces and dashes are ignored); message must be at least 10 characters; establishment type is required; every field has a length cap.
+3. Re-validates every field, mirroring the client-side `validate()`: name uses only letters (accented letters allowed), spaces, `.`, `'` and `-`; email must be valid; phone is optional, but if given must start with `0` and have 10–11 digits (spaces and dashes are ignored); message must be at least 10 characters; establishment type is required; `consent` must be exactly `true`; every field has a length cap.
 4. Verifies the Turnstile token with Cloudflare's `siteverify` endpoint. Missing or invalid tokens get a 403.
 5. Forwards only the five clean fields (`name, email, phone, message, establishmentType`) to `MAKE_WEBHOOK_URL`. The webhook URL never reaches the browser, and the Turnstile token is never forwarded.
 
