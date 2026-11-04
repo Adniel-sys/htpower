@@ -26,12 +26,15 @@ pnpm lint         # lint with oxlint
 
 ```
 api/contact.ts            Vercel Edge Function behind the contact form
+src/main.tsx              Entry point that mounts App
 src/App.tsx               The whole page: sections, ContactForm, Turnstile widget
+src/index.css             Tailwind layers, brand colors, gradients, fonts
+src/lib/utils.ts          cn() class-name helper used by the UI components
 src/components/ui/        shadcn/ui components in use: accordion, button, dialog, select
 src/assets/               Photos and company-profile images (imported by App.tsx)
 public/                   og-image.jpg, robots.txt, sitemap.xml (served as-is)
 vercel.json               Security headers and Content-Security-Policy
-.github/workflows/        Uptime check (pings the live site every 5 hours)
+.github/workflows/        Uptime check (pings the live site 5 times a day; a failed run triggers GitHub's email)
 .claude/skills/           Design-system notes for Claude Code
 ```
 
@@ -43,9 +46,11 @@ Flow: **website form → `/api/contact` → Cloudflare Turnstile check → Make.
 
 1. Accepts only `POST` with `Content-Type: application/json`, from the site's own origin, up to 10 KB.
 2. Drops the request silently (fake 200) if the honeypot is filled. The form also does this before sending.
-3. Re-validates every field (name letters only, valid email, optional PH mobile number, message at least 10 characters, establishment type required, per-field length caps), mirroring the client-side `validate()`.
+3. Re-validates every field, mirroring the client-side `validate()`: name uses only letters (accented letters allowed), spaces, `.`, `'` and `-`; email must be valid; phone is optional, but if given must start with `0` and have 10–11 digits (spaces and dashes are ignored); message must be at least 10 characters; establishment type is required; every field has a length cap.
 4. Verifies the Turnstile token with Cloudflare's `siteverify` endpoint. Missing or invalid tokens get a 403.
 5. Forwards only the five clean fields (`name, email, phone, message, establishmentType`) to `MAKE_WEBHOOK_URL`. The webhook URL never reaches the browser, and the Turnstile token is never forwarded.
+
+Responses: `200` sent (or honeypot caught), `400` invalid JSON or field, `403` wrong origin or failed Turnstile, `405` not POST, `413` body over 10 KB, `415` not JSON, `500` `MAKE_WEBHOOK_URL` or `TURNSTILE_SECRET_KEY` missing on the server, `502` Cloudflare or Make.com unreachable or returned an error. The form shows an error with the business email for anything other than `200`.
 
 The API has no rate limiting of its own. Turnstile and the honeypot are the bot protection, and anything beyond that (dedup, alerts, emails) lives in the Make.com scenario.
 
